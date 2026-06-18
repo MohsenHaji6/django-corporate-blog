@@ -1,0 +1,18 @@
+# Virtualenv
+.venv
+venv
+
+# ruff
+.ruff_cache
+
+# Database
+db.sqlite3
+
+# Vscode
+.vscode
+
+# python
+__pycache__/
+
+# Environment
+.env

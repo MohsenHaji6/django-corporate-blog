@@ -1,0 +1,25 @@
+[project]
+name = "blog"
+version = "0.1.0"
+description = "store-site"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=6.0.6",
+    "environs>=15.0.1",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.17",
+]
+
+[tool.ruff]
+line-length = 91
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
