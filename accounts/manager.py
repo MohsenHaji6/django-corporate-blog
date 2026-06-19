@@ -2,7 +2,7 @@ from django.contrib.auth.models import UserManager
 
 
 class CustomUserManager(UserManager):
-    def create_user(self, phone_number, password=None, **extra_fields):  # pyright: ignore[reportIncompatibleMethodOverride]
+    def create_user(self, phone_number, password=None, **extra_fields):
         if not phone_number:
             raise ValueError("The given phone number must be set")
 
@@ -22,7 +22,7 @@ class CustomUserManager(UserManager):
 
         return user
 
-    def create_superuser(self, phone_number, password, **extra_fields):  # pyright: ignore[reportIncompatibleMethodOverride]
+    def create_superuser(self, phone_number, password, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
 

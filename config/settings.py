@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "treebeard",
     # Local apps
     "accounts",
+    "blog",
+    "news",
 ]
 
 MIDDLEWARE = [
@@ -127,3 +129,7 @@ STATIC_URL = "static/"
 
 # Auth user model
 AUTH_USER_MODEL = "accounts.CustomUser"
+
+# Media files
+MEDIA_URL = "media/"
+MEDIA_ROOT = str(BASE_DIR.joinpath("media"))
