@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models.enums import TextChoices
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from treebeard.mp_tree import MP_Node
 
@@ -10,11 +11,11 @@ User = get_user_model()
 
 class Category(MP_Node):
     name = models.CharField(_("Name"), max_length=50)
-    slug = models.SlugField(_("Slug"), unique=True)
+    slug = models.SlugField(_("Slug"), unique=True, blank=True, allow_unicode=True)
     description = models.TextField(_("Description"), blank=True)
     meta_title = models.CharField(_("Meta Title"), max_length=70, blank=True)
     meta_description = models.CharField(_("Meta Description"), max_length=160, blank=True)
-    image = models.ImageField(_("Image Cover"), upload_to="blog/cat/", blank=True)
+    image = models.ImageField(_("Cover Image"), upload_to="blog/cat/", blank=True)
 
     node_order_by = ["name"]
 
@@ -25,10 +26,16 @@ class Category(MP_Node):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+
+        source = self.slug if self.slug else self.name
+        self.slug = slugify(source, allow_unicode=True)
+        super().save(*args, **kwargs)
+
 
 class Tag(models.Model):
     name = models.CharField(_("Name"), max_length=50)
-    slug = models.SlugField(_("Slug"), unique=True)
+    slug = models.SlugField(_("Slug"), unique=True, blank=True, allow_unicode=True)
     description = models.TextField(_("Description"), blank=True)
     meta_title = models.CharField(_("Meta Title"), max_length=70, blank=True)
     meta_description = models.CharField(_("Meta Description"), max_length=160, blank=True)
@@ -40,28 +47,41 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+
+        source = self.slug if self.slug else self.name
+        self.slug = slugify(source, allow_unicode=True)
+        super().save(*args, **kwargs)
+
 
 class Article(models.Model):
+    class Status(TextChoices):
+        DRAFT = "DR", _("Draft")
+        PUBLISHED = "PU", _("Published")
+        SCHEDULED = "SC", _("Scheduled")
+        ARCHIVED = "AR", _("Archived")
+
     title = models.CharField(_("Title"), max_length=150)
-    slug = models.SlugField(_("Slug"), unique=True)
+    slug = models.SlugField(_("Slug"), unique=True, blank=True, allow_unicode=True)
     author = models.ForeignKey(
         User,
-        on_delete=models.SET_NULL,
-        null=True,
+        on_delete=models.PROTECT,
         verbose_name=_("Author"),
         related_name="articles",
     )
     body = models.TextField(_("Body"))
+    summary = models.CharField(_("Summary"), max_length=300, blank=True)
     meta_title = models.CharField(_("Meta Title"), max_length=70, blank=True)
     meta_description = models.CharField(_("Meta Description"), max_length=160, blank=True)
-    image = models.ImageField(_("Image Cover"), upload_to="blog/")
-    datetime_created = models.DateTimeField(_("Datetime Created"), auto_now_add=True)
+    image = models.ImageField(_("Cover Image"), upload_to="blog/")
+    image_alt_text = models.CharField(_("Image Alt Text"), max_length=100)
+    datetime_created = models.DateTimeField(auto_now_add=True)
     datetime_update = models.DateTimeField(_("Datetime Last Update"), auto_now=True)
-    update_note = models.CharField(
-        _("Update Note"), max_length=255, help_text="Status of the text to date"
+    published_at = models.DateTimeField(_("Published At"), default=timezone.now)
+    status = models.CharField(
+        _("Status"), max_length=2, choices=Status, default=Status.DRAFT
     )
-    datetime_publish = models.DateTimeField(_("Datetime Publish"), default=timezone.now)
-    status_publish = models.BooleanField(_("Status Publish"), default=False)
+    views_count = models.PositiveIntegerField(default=0)
     category_main = models.ForeignKey(
         Category,
         verbose_name=_("Category main"),
@@ -80,11 +100,11 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-    def clean(self):
-        if self.categories.filter(pk=self.category_main.pk).exists():
-            raise ValidationError(
-                "The main category should not be selected in subcategories."
-            )
+    def save(self, *args, **kwargs):
+
+        source = self.slug if self.slug else self.title
+        self.slug = slugify(source, allow_unicode=True)
+        super().save(*args, **kwargs)
 
 
 class Comment(models.Model):
