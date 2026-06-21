@@ -131,5 +131,5 @@ STATIC_URL = "static/"
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 # Media files
-MEDIA_URL = "media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = str(BASE_DIR.joinpath("media"))
