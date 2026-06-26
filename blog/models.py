@@ -4,6 +4,7 @@ from django.db.models.enums import TextChoices
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+from django_ckeditor_5.fields import CKEditor5Field
 from treebeard.mp_tree import MP_Node
 
 User = get_user_model()
@@ -12,7 +13,7 @@ User = get_user_model()
 class Category(MP_Node):
     name = models.CharField(_("Name"), max_length=50)
     slug = models.SlugField(_("Slug"), unique=True, blank=True, allow_unicode=True)
-    description = models.TextField(_("Description"), blank=True)
+    description = CKEditor5Field(_("Description"), blank=True, config_name="article")
     meta_title = models.CharField(_("Meta Title"), max_length=70, blank=True)
     meta_description = models.CharField(_("Meta Description"), max_length=160, blank=True)
     image = models.ImageField(_("Cover Image"), upload_to="blog/cat/", blank=True)
@@ -36,7 +37,7 @@ class Category(MP_Node):
 class Tag(models.Model):
     name = models.CharField(_("Name"), max_length=50)
     slug = models.SlugField(_("Slug"), unique=True, blank=True, allow_unicode=True)
-    description = models.TextField(_("Description"), blank=True)
+    description = CKEditor5Field(_("Description"), blank=True, config_name="article")
     meta_title = models.CharField(_("Meta Title"), max_length=70, blank=True)
     meta_description = models.CharField(_("Meta Description"), max_length=160, blank=True)
 
@@ -69,8 +70,8 @@ class Article(models.Model):
         verbose_name=_("Author"),
         related_name="articles",
     )
-    body = models.TextField(_("Body"))
-    summary = models.CharField(_("Summary"), max_length=300, blank=True)
+    body = CKEditor5Field(_("Body"), config_name="article")
+    summary = CKEditor5Field(_("Summary"), blank=True, config_name="simple")
     meta_title = models.CharField(_("Meta Title"), max_length=70, blank=True)
     meta_description = models.CharField(_("Meta Description"), max_length=160, blank=True)
     image = models.ImageField(_("Cover Image"), upload_to="blog/")

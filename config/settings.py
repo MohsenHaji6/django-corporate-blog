@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third party apps
+    "django_ckeditor_5",
     "treebeard",
     # Local apps
     "accounts",
@@ -136,6 +137,63 @@ MEDIA_ROOT = str(BASE_DIR.joinpath("media"))
 
 # Auth user model
 AUTH_USER_MODEL = "accounts.CustomUser"
+
+# Content editor
+CKEDITOR_5_CONFIGS = {
+    "simple": {
+        "toolbar": [
+            "bold",
+            "italic",
+            "|",
+            "link",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "undo",
+            "redo",
+        ],
+    },
+    "product": {
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "insertTable",
+            "insertImage",
+            "blockQuote",
+            "|",
+            "undo",
+            "redo",
+        ],
+    },
+    "article": {
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "insertTable",
+            "insertImage",
+            "blockQuote",
+            "|",
+            "undo",
+            "redo",
+        ],
+    },
+}
+CKEDITOR_5_FILE_STORAGE = "core.storage.CKEditorStorage"
 
 if DEBUG:
     INSTALLED_APPS = [
