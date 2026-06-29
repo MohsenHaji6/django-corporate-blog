@@ -1,0 +1,24 @@
+<div class="flex items-center gap-2 pr-15 pb-2 text-m text-slate-600">
+    {% for breadcrumb in breadcrumbs %} {% if breadcrumb.url %}
+    <a href="{{ breadcrumb.url }}" class="text-blue-900 hover:underline">
+        {{ breadcrumb.title }}</a
+    >
+    {% else %}
+    <span class="text-slate-600">{{ breadcrumb.title }}</span>
+    {% endif %} {% if not forloop.last %}
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-3.5 mt-1"
+    >
+        <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5"
+        />
+    </svg>
+    {% endif %} {% endfor %}
+</div>

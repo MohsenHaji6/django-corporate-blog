@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models.enums import TextChoices
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -33,6 +34,9 @@ class Category(MP_Node):
         self.slug = slugify(source, allow_unicode=True)
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse("blog:category", kwargs={"slug": self.slug})
+
 
 class Tag(models.Model):
     name = models.CharField(_("Name"), max_length=50)
@@ -54,6 +58,8 @@ class Tag(models.Model):
         self.slug = slugify(source, allow_unicode=True)
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse("blog:tag", kwargs={"slug": self.slug})
 
 class Article(models.Model):
     class Status(TextChoices):
@@ -77,7 +83,7 @@ class Article(models.Model):
     image = models.ImageField(_("Cover Image"), upload_to="blog/")
     image_alt_text = models.CharField(_("Image Alt Text"), max_length=100)
     datetime_created = models.DateTimeField(auto_now_add=True)
-    datetime_update = models.DateTimeField(_("Datetime Last Update"), auto_now=True)
+    datetime_updated = models.DateTimeField(_("Datetime Last Update"), auto_now=True)
     published_at = models.DateTimeField(_("Published At"), default=timezone.now)
     status = models.CharField(
         _("Status"), max_length=2, choices=Status, default=Status.DRAFT
@@ -106,6 +112,9 @@ class Article(models.Model):
         source = self.slug if self.slug else self.title
         self.slug = slugify(source, allow_unicode=True)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("blog:detail", kwargs={"slug": self.slug})
 
 
 class Comment(models.Model):
