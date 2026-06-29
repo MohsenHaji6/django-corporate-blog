@@ -1,0 +1,42 @@
+{% for category in categories %}
+<div
+    x-data="{ open: false }"
+    @focusin="open = true"
+    @focusout="open = false"
+    @mouseenter="open = true"
+    @mouseleave="open = false"
+    style="padding-right: {{ category.depth }}rem;"
+>
+    <div class="flex items-center py-2">
+        <a
+            href="{{ category.url }}"
+            class="hover:font-semibold focus-visible:font-semibold"
+        >
+            {{ category.name }}
+        </a>
+        {% if category.has_children %}
+        <svg
+            class="w-4 h-4 transition-transform"
+            :class="{ '-rotate-90': open }"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+            />
+        </svg>
+        {% endif %}
+    </div>
+
+    {% if category.has_children %}
+    <div x-show="open" x-collapse>
+        <!-- prettier-ignore -->
+        {% include "category_tree.html" with categories=category.children %}
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
