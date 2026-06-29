@@ -1,0 +1,56 @@
+{% extends '_base.html' %}
+
+<!--title-->
+{% block title %}Blog{% endblock title %}
+<!--content-->
+{% block content %} {% include 'breadcrumb.html' %}
+<div
+    class="grid grid-cols-4 bg-white ml-10 mr-10 shadow shadow-slate-300 rounded-2xl p-5 gap-5"
+>
+    <!--content sidebar-->
+    <div class="bg-slate-50 rounded-2xl shadow pt-5">
+        {% include 'category_tree.html' %}
+    </div>
+    <!--content blog card-->
+    <div class="grid bg-slate-50 col-span-3 rounded-2xl p-5 shadow gap-5">
+        <!--blog card-->
+
+        {% for article in articles %}
+
+        <div
+            class="grid grid-cols-2 rounded-2xl shadow shadow-blue-950 overflow-hidden"
+        >
+            <div class="flex flex-col h-full justify-between pr-5 pt-2 pb-2">
+                <div class="flex gap-1">
+                    <h4>{{ article.datetime_updated }} |</h4>
+                    <h4>Category: {{ article.category_main }}</h4>
+                </div>
+                <div>
+                    <h2>{{ article.title }}</h2>
+                </div>
+                <div>
+                    <p>{{ article.summary }}</p>
+                </div>
+                <div>
+                    <a href="{{ article.get_absolute_url }}">Read more</a>
+                </div>
+            </div>
+            <div class="overflow-hidden shadow justify-items-center">
+                <img
+                    src="{{ article.image.url }}"
+                    alt="{{ article.image_alt_text }}"
+                    class="w-105 h-80 shadow hover:scale-110 transition duration-300"
+                />
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
+<!--Script-->
+{% block extra_js %}
+<script
+    defer
+    src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+></script>
+{% endblock extra_js %}

@@ -1,3 +1,51 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
-# Create your views here.
+from .models import Article, Category
+from .services.breadcrumb import build_article_breadcrumb, build_category_breadcrumb
+from .services.category_tree import build_category_tree
+
+
+def blog_list_view(request):
+
+    articles = Article.objects.filter(status=Article.Status.PUBLISHED)
+
+    return render(
+        request,
+        "blog/blog_list.html",
+        {
+            "articles": articles,
+            "categories": build_category_tree(),
+        },
+    )
+
+
+def category_list_view(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    articles = Article.objects.filter(
+        status=Article.Status.PUBLISHED, category_main=category
+    )
+    return render(
+        request,
+        "blog/blog_list.html",
+        {
+            "articles": articles,
+            "categories": build_category_tree(),
+            "breadcrumbs": build_category_breadcrumb(category),
+        },
+    )
+
+
+def blog_detail_view(request, slug):
+
+    article = get_object_or_404(Article, slug=slug)
+
+    return render(
+        request,
+        "blog/blog_detail.html",
+        {
+            "article": article,
+            "breadcrumbs": build_article_breadcrumb(article)
+            if article.category_main
+            else [],
+        },
+    )
