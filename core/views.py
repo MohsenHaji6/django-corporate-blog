@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse
 
 
 def home_view(request):
@@ -6,8 +7,26 @@ def home_view(request):
 
 
 def about_view(request):
-    return render(request, "core/about.html")
+    breadcrumbs = [
+        {
+            "title": "Home",
+            "url": reverse("home"),
+        },
+        {
+            "title": "About",
+        },
+    ]
+    return render(request, "core/about.html", {"breadcrumbs": breadcrumbs})
 
 
 def contact_view(request):
-    return render(request, "core/contact.html")
+    breadcrumbs = [
+        {
+            "title": "Home",
+            "url": reverse("home"),
+        },
+        {
+            "title": "Contact",
+        },
+    ]
+    return render(request, "core/contact.html", {"breadcrumbs": breadcrumbs})
