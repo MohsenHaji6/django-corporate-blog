@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django_ckeditor_5.fields import CKEditor5Field
 
 from accounts.validators import validate_phone_number
 
@@ -40,9 +39,7 @@ class ProductVariant(models.Model):
         related_name="variants",
     )
     title = models.CharField(_("Title"), max_length=150)
-    attribute = CKEditor5Field(
-        _("attribute"), max_length=400, blank=True, config_name="simple"
-    )
+    attribute = models.TextField(_("attribute"), blank=True)
     unit_price = models.PositiveBigIntegerField(_("Unit Price"))
     in_stock = models.BooleanField(_("In Stock"), default=True)
     image = models.ImageField(_("Image"), upload_to="product/")
