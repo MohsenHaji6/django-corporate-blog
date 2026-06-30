@@ -9,12 +9,14 @@ def blog_list_view(request):
 
     articles = Article.objects.filter(status=Article.Status.PUBLISHED)
 
+    breadcrumbs = [{"title": "Home", "url": "/"}, {"title": "Blogs"}]
     return render(
         request,
         "blog/blog_list.html",
         {
             "articles": articles,
             "categories": build_category_tree(),
+            "breadcrumbs": breadcrumbs,
         },
     )
 
