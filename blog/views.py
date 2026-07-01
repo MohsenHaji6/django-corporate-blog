@@ -40,7 +40,9 @@ def category_list_view(request, slug):
 def blog_detail_view(request, slug):
 
     article = get_object_or_404(Article, slug=slug)
-
+    context = {
+        "meta_description": article.meta_description,
+    }
     return render(
         request,
         "blog/blog_detail.html",
@@ -49,5 +51,6 @@ def blog_detail_view(request, slug):
             "breadcrumbs": build_article_breadcrumb(article)
             if article.category_main
             else [],
+            **context,
         },
     )

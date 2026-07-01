@@ -1,17 +1,41 @@
 {% extends '_base.html' %}
 
 <!--Title-->
-{% block title %} detail {% endblock title %}
-
+{% block title %} {{ article.meta_title }} {% endblock title %}
 <!--Content-->
-{% block content %}
-{% include 'breadcrumb.html' %}
-</div>
+{% block content %} {% include 'breadcrumb.html' %}
 <div
-    class="grid grid-rows-2 bg-white gap-5 ml-10 mr-10 shadow shadow-slate-300 rounded-2xl p-5"
+    class="grid auto-rows-auto bg-white gap-5 ml-10 mr-10 shadow shadow-slate-300 rounded-2xl p-5"
 >
+    <!-- Article -->
     <div class="grid bg-slate-50 rounded-2xl p-5 shadow">
-        <h1>{{ article.title }}</h1>
+        <div class="flex items-start justify-between gap-5 pb-5">
+            <div class="flex flex-col gap-5">
+                <div class="flex gap-5">
+                    <span class="text-sm text-slate-400"
+                        >Last updated: {{ article.datetime_updated|date:"F j, Y" }}
+                    </span>
+                    <span class="text-sm text-slate-400">
+                        Category: {{ article.category_main.name }}</span
+                    >
+                </div>
+                <div class="flex flex-col gap-5">
+                    <h1>{{ article.title }}</h1>
+                    <p>{{ article.summary|safe }}</p>
+                </div>
+            </div>
+            <img
+                class="rounded-2xl w-125 h-125 hover:grayscale transition-all duration-300"
+                src="{{ article.image.url }}"
+                alt="{{ article.image_alt_text }}"
+            />
+        </div>
+        <span>{{ article.content|safe }}</span>
+        <span class="border-t border-gray-300 pt-2 pr-2 mt-5">
+            Tags: {% for tag in article.tags.all %}
+            <span class="text-sm text-slate-400">{{ tag.name }}</span>
+            {% endfor %}
+        </span>
     </div>
 
     <!-- Comments -->

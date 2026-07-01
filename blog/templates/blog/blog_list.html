@@ -29,7 +29,7 @@
                     <h2>{{ article.title }}</h2>
                 </div>
                 <div>
-                    <p>{{ article.summary }}</p>
+                    <p>{{ article.summary|safe }}</p>
                 </div>
                 <div>
                     <a href="{{ article.get_absolute_url }}">Read more</a>

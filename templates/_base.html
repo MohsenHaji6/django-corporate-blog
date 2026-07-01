@@ -8,7 +8,7 @@
         <title>{% block title %} {% endblock title %} | YadakOtol</title>
         <meta
             name="description"
-            content="{% block meta_description %}{% endblock meta_description %}"
+            content="{{ meta_description|default:'YadakOtol - Car spare parts' }}"
         />
         <link rel="stylesheet" href="{% static 'css/output.css' %}" />
         {% block extra_head %} {% endblock %}
