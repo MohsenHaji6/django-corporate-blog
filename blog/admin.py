@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from treebeard.admin import TreeAdmin
 
-from .forms import CategoryAdminForm
+from .forms import ArticleAdminForm, CategoryAdminForm
 from .models import Article, Category, Comment, Tag
 
 
@@ -42,6 +42,7 @@ class ArticleAdmin(admin.ModelAdmin):
     class Media:
         js = ("admin/js/meta_title.js",)
 
+    form = ArticleAdminForm
     list_display = [
         "title",
         "slug",

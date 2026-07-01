@@ -1,6 +1,10 @@
+from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from treebeard.forms import MoveNodeForm
+
+from .models import Article
+from .widgets import ArticleEditorWidget
 
 
 class CategoryAdminForm(MoveNodeForm):
@@ -23,3 +27,14 @@ class CategoryAdminForm(MoveNodeForm):
                     )
 
         return cleaned_data
+
+
+class ArticleAdminForm(forms.ModelForm):
+    class Meta:
+        model = Article
+
+        fields = "__all__"
+
+        widgets = {
+            "content": ArticleEditorWidget(),
+        }

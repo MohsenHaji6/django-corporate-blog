@@ -139,6 +139,18 @@ MEDIA_ROOT = str(BASE_DIR.joinpath("media"))
 # Auth user model
 AUTH_USER_MODEL = "accounts.CustomUser"
 
+# TinyMCE Editor
+TINYMCE_DEFAULT_CONFIG = {
+    "height": 650,
+    "width": "100%",
+    "menubar": True,
+    "statusbar": True,
+    "branding": False,
+    "promotion": False,
+    "directionality": "rtl",
+    "language": "fa",
+    "resize": True,
+}
 
 if DEBUG:
     INSTALLED_APPS = [
