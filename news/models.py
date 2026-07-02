@@ -42,8 +42,8 @@ class ProductVariant(models.Model):
     attribute = models.TextField(_("attribute"), blank=True)
     unit_price = models.PositiveBigIntegerField(_("Unit Price"))
     in_stock = models.BooleanField(_("In Stock"), default=True)
-    image = models.ImageField(_("Image"), upload_to="product/")
-    update_date = models.DateField(_("Update Date"), default=timezone.now)
+    image = models.ImageField(_("Image"), upload_to="product/", blank=True, null=True)
+    updated_date = models.DateField(_("Update Date"), default=timezone.now)
 
     class Meta:
         verbose_name = _("Product Variant")
