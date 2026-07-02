@@ -3,11 +3,37 @@
 >
     <div class="inline-grid grid-cols-4 gap-10">
         <div class="grid">
-            <h3>Subscribe in news</h3>
-            <label for="name">Name</label>
-            <input type="text" id="name" class="border-2 rounded-md" />
-            <label for="phone">Phone Number</label>
-            <input type="text" id="phone" class="border-2 rounded-md" />
+            <h3>Subscribe</h3>
+            <p>Subscribe to our newsletter to get the latest updates.</p>
+            <form
+                class="grid gap-1"
+                action="{% url 'subscribe' %}"
+                method="post"
+                id="subscribe-form"
+            >
+                {% csrf_token %}
+                <label for="name">Name:</label>
+                <input
+                    class="border border-gray-300 rounded py-2 px-4"
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                />
+                <label for="phone_number">CellPhone:</label>
+                <input
+                    class="border border-gray-300 rounded py-2 px-4"
+                    type="tel"
+                    id="phone_number"
+                    name="phone_number"
+                    required
+                />
+                <div id="phone_number_error" class="text-red-500 text-sm"></div>
+                <div id="message" class="text-green-500 text-sm"></div>
+                <button class="bg-blue-500 text-white py-2 px-4 rounded" type="submit">
+                    Subscribe
+                </button>
+            </form>
         </div>
         <div class="grid">
             <h3>Contact Us</h3>
@@ -29,3 +55,27 @@
         <p class="text-sm">Designed by M.Hajizadeh 09128013692</p>
     </div>
 </div>
+<script>
+    document
+        .getElementById('subscribe-form')
+        .addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        const msg = document.getElementById('message');
+                        msg.innerHTML = '✅ ' + data.message;
+                        this.reset();
+                    }
+                    if (data.errors.phone_number) {
+                        const msg = document.getElementById('phone_number_error');
+                        msg.innerHTML = '❌ ' + data.errors.phone_number[0];
+                    }
+                });
+        });
+</script>

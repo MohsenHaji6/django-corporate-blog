@@ -27,6 +27,7 @@ urlpatterns = [
     path("", include("core.urls")),
     path("blog/", include("blog.urls")),
     path("tinymce/", include("tinymce.urls")),
+    path("news/", include("news.urls")),
 ]
 
 if settings.DEBUG:

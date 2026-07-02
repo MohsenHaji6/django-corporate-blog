@@ -17,4 +17,7 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductVariantInline]
 
 
-admin.site.register(Subscriber)
+@admin.register(Subscriber)
+class SubscriberAdmin(admin.ModelAdmin):
+    list_display = ("name", "phone_number", "datetime_created")
+    search_fields = ("name", "phone_number")
