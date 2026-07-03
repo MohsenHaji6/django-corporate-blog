@@ -1,0 +1,14 @@
+{% extends '_base.html' %}
+
+<!-- Search Results -->
+{% block content %}
+<h1>Search Results</h1>
+{% if blogs %}
+<ul>
+    {% for blog in blogs %}
+    <li><a href="{% url 'blog:detail' blog.pk %}">{{ blog.title }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No results found for "{{ query }}".</p>
+{% endif %} {% endblock %}

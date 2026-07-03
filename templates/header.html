@@ -20,12 +20,14 @@
     </div>
     <ul class="flex items-center">
         <li class="pl-10">
-            <input
-                class="w-70 h-9 bg-white border-2 rounded-md"
-                type="search"
-                name=""
-                id=""
-            />
+            <form action="{% url 'search' %}" method="get" id="search">
+                <input
+                    class="w-70 h-9 bg-white border-2 rounded-md"
+                    type="search"
+                    name="q"
+                    id="search-input"
+                />
+            </form>
         </li>
         <li class="pl-10">
             <a
