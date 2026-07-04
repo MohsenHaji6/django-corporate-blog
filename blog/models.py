@@ -96,8 +96,8 @@ class Article(models.Model):
         related_name="articles",
     )
     categories = models.ManyToManyField(Category, verbose_name=_("Categories"), blank=True)
-    tag = models.ManyToManyField(
-        Tag, verbose_name=_("Tag"), blank=True, related_name="articles"
+    tags = models.ManyToManyField(
+        Tag, verbose_name=_("Tags"), blank=True, related_name="articles"
     )
 
     class Meta:

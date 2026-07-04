@@ -1,9 +1,8 @@
-from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from blog.models import Article
+from .services.search import search
 
 
 def home_view(request):
@@ -38,16 +37,8 @@ def contact_view(request):
 
 def search_view(request):
     # Perform search logic here
-    query = request.GET.get("q")
+    query = request.GET.get("q", "")
     # ... (search logic)
-    blogs = (
-        Article.objects.filter(
-            Q(title__icontains=query)
-            | Q(content__icontains=query)
-            | Q(tags__name__icontains=query)
-            | Q(category_main__name__icontains=query)
-        ).distinct()
-        if query
-        else []
-    )
+    blogs = search(query)
+
     return render(request, "core/search.html", {"blogs": blogs, "query": query})
