@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render
 
 from .models import Article, Category
@@ -7,14 +8,30 @@ from .services.category_tree import build_category_tree
 
 def blog_list_view(request):
 
-    articles = Article.objects.filter(status=Article.Status.PUBLISHED)
+    articles = (
+        Article.objects.select_related("category_main")
+        .filter(status=Article.Status.PUBLISHED)
+        .only(
+            "pk",
+            "title",
+            "summary",
+            "datetime_updated",
+            "category_main",
+            "slug",
+            "image",
+            "image_alt_text",
+        )
+    )
+
+    pagination = Paginator(articles, 15)
+    page_articles = pagination.get_page(request.GET.get("page"))
 
     breadcrumbs = [{"title": "Home", "url": "/"}, {"title": "Blogs"}]
     return render(
         request,
         "blog/blog_list.html",
         {
-            "articles": articles,
+            "page_articles": page_articles,
             "categories": build_category_tree(),
             "breadcrumbs": breadcrumbs,
         },

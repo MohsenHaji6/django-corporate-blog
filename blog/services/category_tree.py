@@ -4,7 +4,7 @@ from blog.models import Category
 def build_category_tree():
 
     categories = Category.objects.only(
-        "id",
+        "pk",
         "name",
         "slug",
         "path",
