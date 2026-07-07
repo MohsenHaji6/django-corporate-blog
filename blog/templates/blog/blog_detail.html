@@ -39,6 +39,127 @@
     </div>
 
     <!-- Comments -->
-    <div class="grid bg-slate-50 rounded-2xl p-5 shadow"></div>
+    <div class="grid grid-cols-2 gap-5">
+        <div
+            class="grid bg-slate-50 rounded-2xl p-5 shadow max-h-100 overflow-y-scroll"
+        >
+            {% for comment in comments %}
+            <div class="flex flex-col flex-2 p-3 gap-2">
+                <div class="flex flex-row justify-start items-center gap-3">
+                    <span class="text-sm text-slate-400"
+                        >{{ comment.datetime_created}}</span
+                    >
+                    <span class="font-bold">{{ comment.name}}</span>
+                </div>
+                <span class="text-justify">{{ comment.body}}</span>
+                <span class="border-t border-gray-300 pt-2 pr-2 mt-5">
+            </div>
+            {% endfor %}
+        </div>
+        <div
+            class="flex flex-col items-stretch bg-slate-50 rounded-2xl p-5 shadow"
+            id="comment-form"
+        >
+            <form
+                action=""
+                method="POST"
+                class="grid grid-cols-1 w-full h-70 justify-between"
+            >
+                {% csrf_token %}
+                <div class="flex flex-row gap-2 justify-between">
+                    <div class="grid grid-cols-1 w-full">
+                        {{ message.success }}
+                        <label for="name">*Name</label>
+                        <input
+                            class="border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
+                            type="text"
+                            name="name"
+                            id="name"
+                            value="{{ form.name.value|default:''}}"
+                        />
+
+                        {% if form.name.errors %}
+                        <p class="mt-1 text-sm text-red-500">
+                            {{ form.name.errors.0 }}
+                        </p>
+                        {% endif %}
+                    </div>
+                    <div class="grid grid-cols-1 w-full">
+                        <label for="email">*Email</label>
+                        <input
+                            class="border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
+                            type="email"
+                            name="email"
+                            id="email"
+                            value="{{ form.email.value|default:''}}"
+                        />
+
+                        {% if form.email.errors %}
+                        <p class="mt-1 text-sm text-red-500">
+                            {{ form.email.errors.0 }}
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mt-2 pb-2 overflow-hidden">
+                    <textarea
+                        class="border border-gray-300 rounded py-2 px-4 w-full h-full hover:border-blue-400 focus-within:outline-blue-400"
+                        name="body"
+                        id="body"
+                        placeholder="Your comment..."
+                    >
+{{ form.body.value|default:''}}</textarea
+                    >
+                </div>
+                {% if form.body.errors %}
+                <p class="mt-1 text-sm text-red-500 z-10">{{ form.body.errors.0 }}</p>
+                {% endif %}
+                <button
+                    type="submit"
+                    class="bg-blue-400 text-white text-lg rounded px-4 w-full hover:bg-blue-600 focus-within:outline-blue-400"
+                >
+                    Send
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
-{% endblock content %}
+<!-- prettier-ignore -->
+{% if messages %}
+<div class="toast toast-top toast-end z-50">
+    {% for message in messages %}
+    <div class="alert bg-green-200 shadow-lg">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="green"
+            class="size-4"
+        >
+            <path
+                fill-rule="evenodd"
+                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                clip-rule="evenodd"
+            />
+        </svg>
+
+        <span>{{ message }}</span>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            document.querySelectorAll('.toast').forEach((el) => {
+                el.remove();
+            });
+        }, 4000);
+    });
+</script>
+{% if form.errors or messages %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('comment-form').scrollIntoView();
+    });
+</script>
+{% endif %} {% endblock content %}

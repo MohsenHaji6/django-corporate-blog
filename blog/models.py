@@ -130,7 +130,7 @@ class Comment(models.Model):
         verbose_name=_("Article"),
     )
     name = models.CharField(_("Name"), max_length=50)
-    email = models.CharField(_("Email"), unique=True)
+    email = models.EmailField(_("Email"), unique=True)
     body = models.CharField(_("Body"), max_length=400)
     status = models.CharField(
         _("Status"), max_length=2, choices=Status, default=Status.PENDING

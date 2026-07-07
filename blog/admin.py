@@ -77,3 +77,8 @@ class TagAdmin(admin.ModelAdmin):
             "name",
         ]
     }
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ["name", "body", "status"]

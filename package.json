@@ -17,6 +17,7 @@
         "tailwindcss": "^4.3.1"
     },
     "devDependencies": {
+        "daisyui": "^5.6.14",
         "prettier": "^3.8.4",
         "prettier-plugin-django": "^0.5.18",
         "prettier-plugin-tailwindcss": "^0.8.0"

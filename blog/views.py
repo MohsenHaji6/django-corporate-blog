@@ -1,7 +1,10 @@
+from django.contrib import messages
 from django.core.paginator import Paginator
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Article, Category
+from blog.forms import CommentCreateViewForm
+
+from .models import Article, Category, Comment
 from .services.breadcrumb import build_article_breadcrumb, build_category_breadcrumb
 from .services.category_tree import build_category_tree
 
@@ -60,6 +63,26 @@ def blog_detail_view(request, slug):
     context = {
         "meta_description": article.meta_description,
     }
+
+    comments = Comment.objects.filter(article=article, status=Comment.Status.APPROVED)
+
+    if request.method == "POST":
+        form = CommentCreateViewForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.article = article
+            comment.save()
+            messages.success(
+                request,
+                """Your comment has been successfully submitted! We will display it after 
+                review.""",
+            )
+            return redirect("blog:detail", slug=article.slug)
+        else:
+            pass
+    else:
+        form = CommentCreateViewForm()
+
     return render(
         request,
         "blog/blog_detail.html",
@@ -69,5 +92,7 @@ def blog_detail_view(request, slug):
             if article.category_main
             else [],
             **context,
+            "comments": comments,
+            "form": form,
         },
     )

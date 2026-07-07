@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from treebeard.forms import MoveNodeForm
 
-from .models import Article
+from .models import Article, Comment
 from .widgets import ArticleEditorWidget
 
 
@@ -38,3 +38,9 @@ class ArticleAdminForm(forms.ModelForm):
         widgets = {
             "content": ArticleEditorWidget(),
         }
+
+class CommentCreateViewForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+
+        fields = ["name", "email", "body"]
