@@ -33,7 +33,7 @@
         <span>{{ article.content|safe }}</span>
         <span class="border-t border-gray-300 pt-2 pr-2 mt-5">
             Tags: {% for tag in article.tags.all %}
-            <span class="text-sm text-slate-400">{{ tag.name }}</span>
+            <span class="text-sm text-slate-400">{{ tag.name }} ,</span>
             {% endfor %}
         </span>
     </div>

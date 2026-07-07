@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
 
 from blog.forms import CommentCreateViewForm
@@ -59,12 +60,19 @@ def category_list_view(request, slug):
 
 def blog_detail_view(request, slug):
 
-    article = get_object_or_404(Article, slug=slug)
+    article = get_object_or_404(
+        Article.objects.select_related("category_main").prefetch_related(
+            Prefetch(
+                "comments",
+                queryset=Comment.objects.filter(status=Comment.Status.APPROVED),
+            ),
+            "tags",
+        ),
+        slug=slug,
+    )
     context = {
         "meta_description": article.meta_description,
     }
-
-    comments = Comment.objects.filter(article=article, status=Comment.Status.APPROVED)
 
     if request.method == "POST":
         form = CommentCreateViewForm(request.POST)
@@ -92,7 +100,7 @@ def blog_detail_view(request, slug):
             if article.category_main
             else [],
             **context,
-            "comments": comments,
+            "comments": article.comments.all(),  # type: ignore
             "form": form,
         },
     )
