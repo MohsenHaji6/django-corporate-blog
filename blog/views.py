@@ -74,6 +74,9 @@ def blog_detail_view(request, slug):
         "meta_description": article.meta_description,
     }
 
+    pagination = Paginator(article.comments.all(), 10)  # type: ignore
+    page_comments = pagination.get_page(request.GET.get("page"))
+
     if request.method == "POST":
         form = CommentCreateViewForm(request.POST)
         if form.is_valid():
@@ -100,7 +103,7 @@ def blog_detail_view(request, slug):
             if article.category_main
             else [],
             **context,
-            "comments": article.comments.all(),  # type: ignore
+            "page_comments": page_comments,
             "form": form,
         },
     )
