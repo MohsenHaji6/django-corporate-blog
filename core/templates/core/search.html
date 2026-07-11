@@ -2,13 +2,16 @@
 
 <!-- Search Results -->
 {% block content %}
-<h1>Search Results</h1>
-{% if blogs %}
-<ul>
-    {% for blog in blogs %}
-    <li><a href="{% url 'blog:detail' blog.pk %}">{{ blog.title }}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No results found for "{{ query }}".</p>
-{% endif %} {% endblock %}
+<div class="bg-white grid grid-cols-2 gap-5 shadow shadow-slate-300 rounded-2xl p-5">
+    <h1>Search Results</h1>
+    {% if blogs %}
+    <ul>
+        {% for blog in blogs %}
+        <li><a href="{% url 'blog:detail' blog.pk %}">{{ blog.title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No results found for "{{ query }}".</p>
+    {% endif %}
+</div>
+{% endblock %}

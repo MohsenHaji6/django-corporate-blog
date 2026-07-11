@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Address, PhoneNumber, SiteSetting, SocialMedia
+from .models import Address, ContactMessage, PhoneNumber, SiteSetting, SocialMedia
 
 
 class PhoneNumberInline(admin.TabularInline):
@@ -31,3 +31,8 @@ class AddressInline(admin.TabularInline):
 class SiteSettingAdmin(admin.ModelAdmin):
     list_display = ["title", "description"]
     inlines = [PhoneNumberInline, SocialMediaInline, AddressInline]
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ["name", "phone_number", "message"]

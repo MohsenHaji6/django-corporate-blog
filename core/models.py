@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models.enums import TextChoices
 from django.utils.translation import gettext_lazy as _
 
+from accounts.validators import validate_phone_number
+
 
 class SiteSetting(models.Model):
     title = models.CharField(_("Site Title"), max_length=70)
@@ -9,8 +11,9 @@ class SiteSetting(models.Model):
     logo = models.ImageField(_("Logo"), upload_to="logo/")
     favicon = models.ImageField(_("Favicon"), upload_to="logo/")
     email = models.EmailField(_("Site Email"), max_length=254)
+    answer_hours = models.CharField(_("Answering Hours"), max_length=50, blank=True)
     about_text = models.TextField(_("About Text"))
-    privacy_policy = models.TextField(_("Privacy Policy"))
+    privacy_policy = models.TextField(_("Privacy Policy"), blank=True)
 
     class Meta:
         verbose_name = _("Site Setting")
@@ -31,7 +34,7 @@ class PhoneNumber(models.Model):
         SITE_SUPPORT = "SIS", _("Site Support")
         SALES_SUPPORT = "SAS", _("Sales Support")
 
-    site_settings = models.ForeignKey(
+    site_setting = models.ForeignKey(
         SiteSetting,
         on_delete=models.CASCADE,
         related_name="phone_numbers",
@@ -52,7 +55,7 @@ class PhoneNumber(models.Model):
 
 
 class Address(models.Model):
-    site_settings = models.ForeignKey(
+    site_setting = models.ForeignKey(
         SiteSetting,
         on_delete=models.CASCADE,
         related_name="addresses",
@@ -73,7 +76,7 @@ class SocialMedia(models.Model):
         TELEGRAM = "TEL", _("Telegram")
         WHATSAPP = "WHT", _("WhatsApp")
 
-    site_settings = models.ForeignKey(
+    site_setting = models.ForeignKey(
         SiteSetting, on_delete=models.CASCADE, related_name="social_medias"
     )
     name = models.CharField(_("Name"), max_length=3, choices=Name, default=Name.INSTAGRAM)
@@ -82,3 +85,16 @@ class SocialMedia(models.Model):
     class Meta:
         verbose_name = _("Social Media")
         verbose_name_plural = _("Social Medias")
+
+
+class ContactMessage(models.Model):
+    name = models.CharField(_("Name"), max_length=50)
+    phone_number = models.CharField(
+        _("Phone Number"), max_length=11, validators=[validate_phone_number]
+    )
+    message = models.CharField(_("Message"), max_length=100)
+
+    email_sent = models.BooleanField(_("Email Sent"), default=False)
+    sms_sent = models.BooleanField(_("SMS Sent"), default=False)
+
+    datetime_created = models.DateTimeField(auto_now_add=True)
