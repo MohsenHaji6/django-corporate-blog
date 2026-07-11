@@ -15,7 +15,7 @@ def build_category_breadcrumb(category):
     breadcrumbs = [
         {
             "title": "Home",
-            "url": reverse("home"),
+            "url": reverse("core:home"),
         },
         {
             "title": "Blogs",

@@ -1,69 +1,105 @@
-<nav
-    class="flex justify-center items-center mt-3 mb-5 ml-10 mr-10 p-4 z-50 shadow shadow-slate-300 rounded-2xl bg-white gap-10"
->
-    <ul class="inline-flex w-100">
-        <li class="pl-10 pr-10">
-            <a href="/" class="">Home</a>
-        </li>
-        <li class="pl-10">
-            <a href="/blog" class="">Blog</a>
-        </li>
-        <li class="pl-10">
-            <a href="/about" class="">About</a>
-        </li>
-        <li class="">
-            <a href="/contact" class="">Contact</a>
-        </li>
-    </ul>
-    <div class="flex justify-between items-center">
-        <img src="/media/logo/yadakotol.png" alt="Logo" class="w-45 h-18" />
-    </div>
-    <ul class="flex items-center gap-7">
-        <li class="">
-            <form
-                action="{% url 'search' %}"
-                method="get"
-                id="search"
-                class="w-full max-w-md"
+{% load media_placeholder %}
+<div id="header" class="fixed w-full z-50 transition-all duration-400">
+    <div
+        class="grid grid-cols-5 justify-items-stretch h-22 ml-10 shadow shadow-slate-300 rounded-2xl bg-white transition-all duration-400"
+        id="container"
+    >
+        <nav class="flex justify-start items-center col-span-2 pr-7 gap-10">
+            <a
+                href="{% url 'core:home' %}"
+                class="font-semibold p-2 hover:underline {% if request.resolver_match.view_name == 'core:home' %} scale-110 underline {% endif %}"
+                >Home</a
             >
-                <div
-                    class="group relative flex items-center rounded-sm border border-slate-200 bg-white shadow-sm transition-all duration-300 focus-within:bg-pink-200"
+            <a
+                href="{% url 'blog:list' %}"
+                class="font-semibold p-2 hover:underline {% if request.resolver_match.namespace == 'blog' %} scale-110 underline {% endif %}"
+                >Blog</a
+            >
+            <a
+                href="{% url 'core:about' %}"
+                class="font-semibold p-2 hover:underline {% if request.resolver_match.view_name == 'core:about' %} scale-110 underline {% endif %}"
+                >About</a
+            >
+            <a
+                href="{% url 'core:contact' %}"
+                class="font-semibold p-2 hover:underline {% if request.resolver_match.view_name == 'core:contact' %} scale-110 underline {% endif %}"
+                >Contact</a
+            >
+        </nav>
+        <div class="grid justify-center items-center">
+            <img
+                src="/media/logo/yadakotol.png "
+                alt=""
+                id="logo"
+                width="200px"
+                class="transition-all duration-600"
+            />
+        </div>
+        <div class="flex justify-end col-span-2 items-center gap-5">
+            <div class="w-full pr-5">
+                <form
+                    action="{% url 'core:search' %}"
+                    method="get"
+                    id="search"
+                    class="w-full max-w-md"
                 >
-                    <input
-                        type="search"
-                        name="q"
-                        placeholder="جستجو در مقالات..."
-                        class="h-11 w-full rounded-xl bg-transparent pr-12 pl-4 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none"
-                    />
-
-                    <button
-                        type="submit"
-                        class="absolute right-2 flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 transition-all duration-300 hover:bg-blue-500 hover:text-white active:scale-95"
-                        aria-label="جستجو"
+                    <div
+                        class="group relative flex items-center rounded-sm border border-slate-200 bg-white shadow-sm transition-all duration-300 focus-within:bg-slate-50"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="2"
-                            stroke="currentColor"
-                            class="size-5 transition-transform duration-300 group-focus-within:scale-110"
+                        <input
+                            type="search"
+                            name="q"
+                            placeholder="Search in blogs..."
+                            class="h-11 w-full rounded-xl bg-transparent pr-12 pl-3 text-m text-slate-700 placeholder:text-slate-400 focus:outline-none"
+                        />
+
+                        <button
+                            type="submit"
+                            class="absolute right-2 flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 transition-all duration-300 hover:bg-blue-600 hover:text-white active:scale-95"
+                            aria-label="Search"
                         >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="m21 21-4.35-4.35m1.85-5.15a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-                            />
-                        </svg>
-                    </button>
-                </div>
-            </form>
-        </li>
-        <a
-            href="{% url 'pricing' %}"
-            class="flex flex-row w-25 justify-center py-2 rounded-sm bg-blue-400"
-        >
-            <li class="text-white">Price List</li>
-        </a>
-    </ul>
-</nav>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="2"
+                                stroke="currentColor"
+                                class="size-5 transition-transform duration-300 group-focus-within:scale-110"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="m21 21-4.35-4.35m1.85-5.15a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <a
+                href="{% url 'pricing' %}"
+                class="flex flex-row w-2/6 h-11 justify-center text-white py-2 ml-5 rounded-sm bg-blue-500 hover:bg-blue-600"
+                >Price List</a
+            >
+        </div>
+    </div>
+</div>
+<script>
+    const header = document.getElementById('header');
+    const container = document.getElementById('container');
+    const logo = document.getElementById('logo');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 85) {
+            header.classList.add('top-0');
+            container.classList.remove('h-22', 'bg-white');
+            container.classList.add('h-16', 'backdrop-blur-xs');
+            logo.classList.add('w-35');
+        } else {
+            header.classList.remove('top-0');
+            container.classList.remove('h-16');
+            container.classList.add('h-22', 'bg-white');
+            logo.classList.remove('w-35');
+        }
+    });
+</script>

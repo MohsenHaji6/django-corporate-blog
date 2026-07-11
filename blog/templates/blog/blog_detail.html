@@ -5,7 +5,7 @@
 <!--Content-->
 {% block content %} {% include 'breadcrumb.html' %}
 <div
-    class="grid auto-rows-auto bg-white gap-5 ml-10 mr-10 shadow shadow-slate-300 rounded-2xl p-5"
+    class="grid auto-rows-auto bg-white gap-5 shadow shadow-slate-300 rounded-2xl p-5"
 >
     <!-- Article -->
     <div class="grid bg-slate-50 rounded-2xl p-5 shadow">
@@ -108,7 +108,7 @@
                         id="body"
                         placeholder="Your comment..."
                     >
-{{ form.body.value|default:''}}</textarea
+                    {{ form.body.value|default:''}}</textarea
                     >
                 </div>
                 {% if form.body.errors %}
@@ -116,7 +116,7 @@
                 {% endif %}
                 <button
                     type="submit"
-                    class="bg-blue-400 text-white text-lg rounded px-4 w-full hover:bg-blue-600 focus-within:outline-blue-400"
+                    class="bg-blue-500 text-white text-lg rounded px-4 w-full hover:bg-blue-600 focus-within:outline-blue-600"
                 >
                     Send
                 </button>

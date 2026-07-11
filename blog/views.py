@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
 from blog.forms import CommentCreateViewForm
 
@@ -30,7 +31,7 @@ def blog_list_view(request):
     pagination = Paginator(articles, 15)
     page_articles = pagination.get_page(request.GET.get("page"))
 
-    breadcrumbs = [{"title": "Home", "url": "/"}, {"title": "Blogs"}]
+    breadcrumbs = [{"title": "Home", "url": reverse("core:home")}, {"title": "Blogs"}]
     return render(
         request,
         "blog/blog_list.html",
