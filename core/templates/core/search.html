@@ -2,15 +2,36 @@
 
 <!-- Search Results -->
 {% block content %}
-<div class="bg-white grid grid-cols-2 gap-5 shadow shadow-slate-300 rounded-2xl p-5">
-    <h1>Search Results</h1>
-    {% if blogs %}
-    <ul>
-        {% for blog in blogs %}
-        <li><a href="{% url 'blog:detail' blog.pk %}">{{ blog.title }}</a></li>
-        {% endfor %}
-    </ul>
-    {% else %}
+<h1 class="pr-5 pb-2 text-2xl text-slate-600">Search Results</h1>
+<div
+    class="grid grid-rows bg-white gap-5 shadow shadow-slate-300 rounded-2xl pl-10 pr-10 p-5"
+>
+    {% if articles %} {% for article in articles %}
+    <a
+        href="{% url 'blog:detail' article.slug %}"
+        class="border-b-2 border-slate-100 mb-3"
+    >
+        <div class="grid grid-cols-6 overflow-hidden">
+            <div class="flex flex-col col-span-5 h-full justify-between pr-5 pt-2 pb-2">
+                <div class="grid grid-rows-3 gap-1">
+                    <div class="flex gap-1">
+                        <h4>{{ article.datetime_updated }} |</h4>
+                        <h4>Category: {{ article.category_main }}</h4>
+                    </div>
+                    <h2>{{ article.title }}</h2>
+                    <p>{{ article.summary|safe }}</p>
+                </div>
+            </div>
+            <div class="justify-items-center">
+                <img
+                    src="{{ article.image.url }}"
+                    alt="{{ article.image_alt_text }}"
+                    class="h-50 hover:scale-103 transition duration-300"
+                />
+            </div>
+        </div>
+    </a>
+    {% endfor %} {% else %}
     <p>No results found for "{{ query }}".</p>
     {% endif %}
 </div>

@@ -56,6 +56,6 @@ def search_view(request):
     # Perform search logic here
     query = request.GET.get("q", "")
     # ... (search logic)
-    blogs = search(query)
+    articles = search(query)
 
-    return render(request, "core/search.html", {"blogs": blogs, "query": query})
+    return render(request, "core/search.html", {"articles": articles, "query": query})
