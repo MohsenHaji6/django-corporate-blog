@@ -104,6 +104,8 @@ class Article(models.Model):
         verbose_name = _("Article")
         verbose_name_plural = _("Articles")
 
+        ordering = ["-datetime_updated"]
+
     def __str__(self):
         return self.title
 

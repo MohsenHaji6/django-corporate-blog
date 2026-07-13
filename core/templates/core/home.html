@@ -1,16 +1,314 @@
+<!-- prettier-ignore -->
 {% extends '_base.html' %}
+{% load media_placeholder %}
+{% load static %}
 
 <!-- title -->
 {% block title %} home {% endblock title %}
 
 <!-- Content -->
 {% block content %}
-<div class="bg-white grid grid-cols-2 gap-5 shadow shadow-slate-300 rounded-2xl p-5">
-    <!-- Carousel -->
-    <div>
-        {% for 10 in i %}
-        <p>salam</p>
-        {% endfor %}
+<div class="bg-white grid grid-rows gap-5 shadow shadow-slate-300 rounded-2xl p-5">
+    <!-- Hero -->
+    <div
+        class="grid grid-cols-2 justify-items-center-safe items-center bg-blue-200 rounded-2xl"
+    >
+        <div class="grid grid-rows-2 gap-5 mx-10">
+            <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
+            <p>
+                Lorem ipsum eius proident magni aspernatur obcaecati architecto quae
+                veritatis do cupiditate nostrud numquam aliqua magna architecto ut
+                nesciunt tempora quos ullamco officia vero ea quisquam fugit fugit est
+                quae duis quas
+            </p>
+            <div class="flex gap-5">
+                <a
+                    href="{% url 'price_list' %}"
+                    class="rounded-lg bg-slate-950 text-white px-5 py-2"
+                    >Price List</a
+                >
+                <a href="tel:" class="rounded-lg bg-blue-500 text-white px-5 py-2"
+                    >Now Call Us</a
+                >
+            </div>
+        </div>
+        <div class="flex justify-center w-100 h-100 rounded-2xl overflow-auto my-5">
+            {% placeholder 400 400 "Hero" %}
+        </div>
+    </div>
+    <!-- Recent Blogs -->
+    <div class="flex justify-center items-baseline w-full gap-5 mt-5">
+        <div class="border-t-2 w-100 h-0"></div>
+        <h4>Recent Blogs</h4>
+        <div class="border-b-2 h-0 w-100"></div>
+    </div>
+    <div class="flex px-10">
+        <div class="grid grid-cols-3 gap-5">
+            {% for article in articles %}
+            <div
+                class="grid grid-rows-2 justify-between justify-items-center shadow p-5 rounded-2xl gap-5 hover:shadow-lg"
+            >
+                <img
+                    src="{{article.image.url}}"
+                    alt="{{article.image_alt_text}}"
+                    width="250"
+                />
+                <div class="flex flex-col justify-between">
+                    <a href="{{article.category_main.get_absolute_url}}">
+                        <p class="text-slate-500">
+                            Category: {{article.category_main}}
+                        </p></a
+                    >
+                    <a href="{{article.get_absolute_url}}">
+                        <h2 class="py-2">{{article.title}}</h2></a
+                    >
+                    <p class="text-justify">{{article.summary|truncatewords:20}}</p>
+                    <a class="py-1 font-semibold" href="{{article.get_absolute_url}}"
+                        >Read more</a
+                    >
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Parent Categories -->
+    <div
+        class="flex bg-linear-120 from-30% from-blue-200 to-blue-300 rounded-2xl px-10 my-10"
+    >
+        <div class="grid grid-cols-5 gap-5">
+            <div class="col-span-2 grid grid-rows-3 justify-items-end gap-5">
+                <div class="bg-white w-[50%] rounded-b-2xl overflow-auto py-3 px-3">
+                    {% placeholder 175 120 "cat 5" False%}
+                    <p>Category 5</p>
+                </div>
+                <div
+                    class="row-span-2 w-[90%] bg-white rounded-t-2xl overflow-auto py-3 px-3"
+                >
+                    {% placeholder 175 120 "cat 6" False%}
+                    <p>Category 6</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 col-span-2 gap-5 py-10">
+                <div class="grid grid-rows-5 gap-5 w-50">
+                    <div
+                        class="row-span-2 bg-white rounded-2xl overflow-auto py-3 px-3"
+                    >
+                        {% placeholder 175 120 "cat 1" False%}
+                        <p>Category 1</p>
+                    </div>
+                    <div
+                        class="row-span-3 bg-white rounded-2xl overflow-hidden py-3 px-3"
+                    >
+                        {% placeholder 175 120 "cat 2" False%}
+                        <p>Category 2</p>
+                    </div>
+                </div>
+                <div class="grid grid-rows-5 gap-5">
+                    <div
+                        class="row-span-3 bg-white rounded-2xl overflow-auto py-3 px-3"
+                    >
+                        {% placeholder 175 120 "cat 3" False%}
+                        <p>Category 3</p>
+                    </div>
+                    <div
+                        class="row-span-2 bg-white rounded-2xl overflow-auto py-3 px-3"
+                    >
+                        {% placeholder 175 120 "cat 4" False%}
+                        <p>Category 4</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Part of Price List-->
+    <div class="flex justify-center items-baseline w-full gap-5 mt-5">
+        <div class="border-t-2 w-100 h-0"></div>
+        <h4>Price List</h4>
+        <div class="border-b-2 h-0 w-100"></div>
+    </div>
+    <div class="grid">
+        <div class="flex rounded-2xl overflow-hidden border border-blue-100">
+            <table class="table-auto w-full border-collapse">
+                <tr>
+                    <th class="border border-blue-50">Title</th>
+                    <th class="border border-blue-50">Attributes</th>
+                    <th class="border border-blue-50">Price</th>
+                    <th class="border border-blue-50">Last update</th>
+                </tr>
+                {% for product in products %}
+                <tr class="bg-blue-100 justify-center">
+                    <td class="border border-blue-50 p-2 text-center">
+                        {{product.title}}
+                    </td>
+                    <td class="border border-blue-50 p-2 text-center">
+                        {{product.attribute}}
+                    </td>
+                    <td class="border border-blue-50 p-2 text-center">
+                        {{product.unit_price}}
+                    </td>
+                    <td class="border border-blue-50 p-2 text-center">
+                        {{product.updated_date}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="flex justify-end">
+            <a
+                href="{% url 'price_list' %}"
+                class="flex justify-center w-[10%] py-2 px-2 my-5 mx-10 rounded-lg text-white text-lg font-semibold bg-blue-500"
+                >more</a
+            >
+        </div>
+    </div>
+    <!--Why should you choose us?-->
+    <div class="flex px-10 mt-5"><h3>Why should you choose us?</h3></div>
+    <div
+        class="flex justify-around items-center bg-radial from-blue-50 to-blue-300 rounded-2xl py-5 px-5"
+    >
+        <div class="grid justify-items-center gap-5">
+            <img
+                src="{% static 'images/svg/tick-checkbox.svg' %}"
+                alt="Quality assurance"
+                class="w-[50%] hover:-rotate-2"
+            />
+            <h4>Quality assurance</h4>
+        </div>
+        <div class="grid justify-items-center gap-5">
+            <img
+                src="{% static 'images/svg/fast-delivery.svg' %}"
+                alt="Fast Delivery"
+                class="w-[50%] hover:rotate-2"
+            />
+            <h4>Fast Delivery</h4>
+        </div>
+        <div class="grid justify-items-center gap-5">
+            <img
+                src="{% static 'images/svg/contract-filed-line.svg' %}"
+                alt="Warranty"
+                class="w-[50%] hover:-rotate-2"
+            />
+            <h4>Warranty</h4>
+        </div>
+        <div class="grid justify-items-center gap-8">
+            <img
+                src="{% static 'images/svg/price.svg' %}"
+                alt="Best price"
+                class="w-[45%] hover:rotate-2"
+            />
+            <h4>Best price</h4>
+        </div>
+    </div>
+    <div class="grid grid-cols-2 px-15 my-10 gap-10">
+        <div class="grid grid-cols-1">
+            <div class="flex">
+                <h2 class="px-5">Call us now or leave a message</h2>
+            </div>
+            <h4 class="px-5">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est
+                deleniti dolor provident nulla consequat. Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit. Sed est deleniti dolor provident nulla
+                consequat.
+            </h4>
+            <div class="flex items-end">
+                <a
+                    href="tel:"
+                    class="flex justify-center w-full bg-stone-600 hover:bg-stone-950 text-white text-lg rounded-sm py-2"
+                    >0912-345-6789</a
+                >
+            </div>
+        </div>
+        <div>
+            <div class="grid">
+                <form
+                    action=""
+                    method="POST"
+                    class="grid gap-3"
+                    id="form"
+                    data-scroll="{% if contact_form.errors or messages %}true{% else %}false{% endif %}"
+                >
+                    {% csrf_token %}
+                    <div class="flex justify-center gap-3">
+                        <div class="flex flex-col w-full gap-3">
+                            <label for="name">Name</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value="{{ contact_form.name.value|default:'' }}"
+                                class="border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
+                            />
+                            {% if contact_form.name.errors %}
+                            <p class="mt-1 text-sm text-red-500">
+                                {{ contact_form.name.errors.0 }}
+                            </p>
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-col w-full gap-3">
+                            <label for="phone_number">Mobile Phone</label>
+                            <input
+                                type="text"
+                                id="phone_number"
+                                name="phone_number"
+                                value="{{ contact_form.phone_number.value|default:''}}"
+                                placeholder="09..."
+                                class="border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
+                                required
+                            />
+                            {% if contact_form.phone_number.errors %}
+                            <p class="mt-1 text-sm text-red-500">
+                                {{ contact_form.phone_number.errors.0 }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <textarea
+                        name="message"
+                        id="message"
+                        class="h-30 border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
+                        placeholder="Please write your message..."
+                    >
+{{ contact_form.message.value|default:''}}</textarea
+                    >
+                    {% if contact_form.message.errors %}
+                    <p class="mt-1 text-sm text-red-500">
+                        {{ contact_form.message.errors.0 }}
+                    </p>
+                    {% endif %}
+                    <button
+                        type="submit"
+                        class="bg-blue-500 text-lg hover:bg-blue-600 focus-within:outline-blue-600 text-white py-2 rounded-sm"
+                    >
+                        Send
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
-{% endblock content %}
+{% if messages %}
+<div class="toast toast-top toast-end z-50">
+    {% for message in messages %}
+    <div class="alert bg-green-200 shadow-lg">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="green"
+            class="size-4"
+        >
+            <path
+                fill-rule="evenodd"
+                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                clip-rule="evenodd"
+            />
+        </svg>
+
+        <span>{{ message }}</span>
+    </div>
+    {% endfor %}
+</div>
+{% endif %} {% endblock content %}
+<!-- prettier-ignore -->
+{% block extra_js %}
+<script src="{% static 'js/forms.js' %}"></script>
+{% endblock extra_js %}

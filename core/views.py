@@ -3,15 +3,36 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from blog.models import Article
+from news.models import ProductVariant
+
 from .forms import ContactMessageForm
 from .services.search import search
 
-# from blog.models import Article
-
 
 def home_view(request):
-    # latest_articles = Article.objects.filter(datetime_published=)
-    return render(request, "core/home.html")
+
+    articles = Article.objects.filter(status=Article.Status.PUBLISHED).select_related(
+        "category_main"
+    )[:3]
+    products = ProductVariant.objects.filter(in_stock=True).order_by("-updated_date")[:3]
+
+    if request.method == "POST":
+        form = ContactMessageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, """Your message has been sent successfully!""")
+            return redirect("core:home")
+        else:
+            pass
+    else:
+        form = ContactMessageForm()
+
+    return render(
+        request,
+        "core/home.html",
+        {"articles": articles, "products": products, "contact_form": form},
+    )
 
 
 def about_view(request):
