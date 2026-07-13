@@ -1,4 +1,6 @@
-{% load media_placeholder %}
+<!-- prettier-ignore -->
+{% load media_placeholder %} 
+{% load static %}
 <div
     class="grid grid-rows-none place-items-stretch mt-5 p-5 z-50 shadow shadow-slate-300 rounded-2xl bg-white"
 >
@@ -29,8 +31,9 @@
                     name="phone_number"
                     required
                 />
-                <div id="phone_number_error" class="text-red-500 text-sm"></div>
                 <div id="message" class="text-green-500 text-sm"></div>
+                <div id="phone_number_error" class="text-red-500 text-sm"></div>
+
                 <button
                     class="bg-blue-500 hover:bg-blue-600 focus-within:outline-blue-600 text-white py-2 px-4 rounded"
                     type="submit"
@@ -39,7 +42,7 @@
                 </button>
             </form>
         </div>
-        <div class="grid col-span-5 items-start gap-5 pr-10">
+        <div class="grid col-span-5 items-start gap-5 px-10">
             <h3>Contact Us</h3>
             <div class="flex gap-2">
                 <svg
@@ -54,9 +57,7 @@
                         clip-rule="evenodd"
                     />
                 </svg>
-                <span class="flex gap-3">
-                   from 8:00 to 20:00
-                </span>
+                <span class="flex gap-3"> from 8:00 to 20:00 </span>
             </div>
             <a href="tel:09128013692" class="flex gap-2"
                 ><svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -82,11 +83,15 @@
                 >
             </a>
         </div>
-        <div class="grid col-span-4 gap-3 items-start pr-10">
-            <h3 class="pb-2">Links</h3>
-            <a href="/blog/" class="hover:text-blue-800 hover:underline">Blog</a>
-            <a href="/about/" class="hover:text-blue-800 hover:underline">About</a>
-            <a href="news/pricing" class="hover:text-blue-800 hover:underline"
+        <div class="grid col-span-4 gap-3 items-start px-10">
+            <h3>Links</h3>
+            <a href="{% url 'blog:list' %}" class="hover:text-blue-800 hover:underline"
+                >Blog</a
+            >
+            <a href="{% url 'core:about' %}" class="hover:text-blue-800 hover:underline"
+                >About</a
+            >
+            <a href="{% url 'price_list' %}" class="hover:text-blue-800 hover:underline"
                 >Price List</a
             >
             <a href="#" class="hover:text-blue-800 hover:underline">Privacy Policy</a>
@@ -95,19 +100,19 @@
             <div class="flex gap-5 justify-center h-10">
                 <a href=""
                     ><img
-                        src="/media/other/telegram.png"
+                        src="{% static 'images/svg/telegram.svg' %}"
                         alt="Telegram"
                         class="w-12 h-12 hover:scale-102"
                 /></a>
                 <a href=""
                     ><img
-                        src="/media/other/whatsapp.png"
+                        src="{% static 'images/svg/whatsapp.svg' %}"
                         alt="WhatsApp"
                         class="w-12 h-12 hover:scale-102"
                 /></a>
                 <a href=""
                     ><img
-                        src="/media/other/instagram.png"
+                        src="{% static 'images/svg/instagram.svg' %}"
                         alt="Instagram"
                         class="w-12 h-12 hover:scale-102"
                 /></a>
@@ -120,32 +125,9 @@
             </div>
         </div>
     </div>
-    <div class="grid place-items-end mt-3 pt-2 border-t border-slate-200">
+    <div class="grid place-items-start mt-3 pt-2 border-t border-slate-200">
         <p>Copyright © 2026 YadakOtol.com</p>
         <p class="text-sm">Designed by M.Hajizadeh 09128013692</p>
     </div>
 </div>
-<script>
-    document
-        .getElementById('subscribe-form')
-        .addEventListener('submit', function (event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.success) {
-                        const msg = document.getElementById('message');
-                        msg.innerHTML = '✅ ' + data.message;
-                        this.reset();
-                    }
-                    if (data.errors.phone_number) {
-                        const msg = document.getElementById('phone_number_error');
-                        msg.innerHTML = '❌ ' + data.errors.phone_number[0];
-                    }
-                });
-        });
-</script>
+<script src="{% static 'js/footer.js' %}"></script>

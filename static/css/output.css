@@ -1313,8 +1313,20 @@
   .top-0 {
     top: 0;
   }
+  .right-0 {
+    right: 0;
+  }
   .right-2 {
     right: calc(var(--spacing) * 2);
+  }
+  .right-5 {
+    right: calc(var(--spacing) * 5);
+  }
+  .left-0 {
+    left: 0;
+  }
+  .left-5 {
+    left: calc(var(--spacing) * 5);
   }
   .textarea {
     @layer daisyui.l1.l2.l3 {
@@ -1442,6 +1454,9 @@
     @media (width >= 96rem) {
       max-width: 96rem;
     }
+  }
+  .mx-2 {
+    margin-inline: calc(var(--spacing) * 2);
   }
   .mx-5 {
     margin-inline: calc(var(--spacing) * 5);
@@ -1946,6 +1961,9 @@
   .place-items-end {
     place-items: end;
   }
+  .place-items-start {
+    place-items: start;
+  }
   .place-items-stretch {
     place-items: stretch;
   }
@@ -2209,6 +2227,9 @@
   .p-5 {
     padding: calc(var(--spacing) * 5);
   }
+  .px-1 {
+    padding-inline: var(--spacing);
+  }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
   }
@@ -2220,6 +2241,9 @@
   }
   .px-5 {
     padding-inline: calc(var(--spacing) * 5);
+  }
+  .px-7 {
+    padding-inline: calc(var(--spacing) * 7);
   }
   .px-10 {
     padding-inline: calc(var(--spacing) * 10);

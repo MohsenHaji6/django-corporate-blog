@@ -230,10 +230,10 @@
                     {% csrf_token %}
                     <div class="flex justify-center gap-3">
                         <div class="flex flex-col w-full gap-3">
-                            <label for="name">Name</label>
+                            <label for="contact_name">Name</label>
                             <input
                                 type="text"
-                                id="name"
+                                id="contact_name"
                                 name="name"
                                 value="{{ contact_form.name.value|default:'' }}"
                                 class="border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
@@ -245,10 +245,10 @@
                             {% endif %}
                         </div>
                         <div class="flex flex-col w-full gap-3">
-                            <label for="phone_number">Mobile Phone</label>
+                            <label for="contact_phone_number">Mobile Phone</label>
                             <input
                                 type="text"
-                                id="phone_number"
+                                id="contact_phone_number"
                                 name="phone_number"
                                 value="{{ contact_form.phone_number.value|default:''}}"
                                 placeholder="09..."
@@ -264,7 +264,6 @@
                     </div>
                     <textarea
                         name="message"
-                        id="message"
                         class="h-30 border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
                         placeholder="Please write your message..."
                     >
