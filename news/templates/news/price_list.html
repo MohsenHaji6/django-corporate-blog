@@ -1,0 +1,96 @@
+{% extends '_base.html' %}
+
+<!-- prettier-ignore -->
+{% block title %}
+    Pricing - {{ block.super }}
+{% endblock title %}
+    
+{% block content %}
+{% include 'breadcrumb.html' %}
+<div class="flex flex-col bg-white shadow shadow-slate-300 rounded-2xl p-5 gap-5">
+    <div class="rounded-2xl overflow-auto">
+        <table class="table-auto w-full border-collapse border border-slate-400">
+            <tr>
+                <th class="bg-blue-900 text-white border border-slate-400 py-2">
+                    Title
+                </th>
+                <th class="bg-blue-900 text-white border border-slate-400 py-2">
+                    Attributes
+                </th>
+                <th class="bg-blue-900 text-white border border-slate-400 py-2">
+                    Unit price
+                </th>
+                <th class="bg-blue-900 text-white border border-slate-400 py-2">
+                    Last updated date
+                </th>
+                <th class="bg-blue-900 text-white border border-slate-400 py-2">
+                    Stock
+                </th>
+                <th class="bg-blue-900 text-white border border-slate-400 py-2">
+                    Image
+                </th>
+            </tr>
+            {% for product in products %}
+            <tr class="bg-blue-200">
+                <td class="border border-slate-300 py-2 text-center" colspan="6">
+                    <h2>{{ product.name|capfirst }}</h2>
+                </td>
+            </tr>
+            {% for variant in product.variants %}
+            <tr class="justify-center odd:bg-slate-300 even:bg-slate-200">
+                <td class="border border-slate-100 p-2 text-center">
+                    {{ variant.title|capfirst }}
+                </td>
+                <!-- prettier-ignore -->
+                <td class="border max-w-65 border-slate-100 p-2 text-center">{{ variant.attribute}}</td>
+                <td class="border border-slate-100 p-2 text-center">
+                    ${{ variant.unit_price }}
+                </td>
+                <td class="border border-slate-100 p-2 text-center">
+                    {{ variant.updated_date }}
+                </td>
+                <td class="border border-slate-100 p-2 justify-items-center">
+                    {% if variant.in_stock %}
+                    <div class="flex flex-row gap-1 text-green-500">
+                        In Stock
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            class="size-6"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                    </div>
+                    {% else %}
+                    <div class="flex flex-row gap-1 text-red-600">
+                        Out of Stock
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            class="size-6"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                    </div>
+                    {% endif %}
+                </td>
+                <!-- prettier-ignore -->
+                <td class="border border-slate-100 p-2">{% if variant.image %}
+            <img class="mx-auto" src="{{ variant.image }}" alt="{{ variant.name }}" width="100" />
+            {% endif %}</td>
+            </tr>
+            {% endfor %} {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

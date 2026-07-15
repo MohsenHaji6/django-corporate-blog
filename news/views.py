@@ -21,10 +21,10 @@ def subscriber_view(request):
     )
 
 
-def pricing_view(request):
+def price_list_view(request):
     breadcrumbs = [
         {"title": _("Home"), "url": "/"},
-        {"title": _("Pricing")},
+        {"title": _("Price List")},
     ]
     products = Product.objects.prefetch_related("variants").all()
     product_data = []
@@ -46,6 +46,6 @@ def pricing_view(request):
 
     return render(
         request,
-        "news/pricing.html",
+        "news/price_list.html",
         {"products": product_data, "breadcrumbs": breadcrumbs},
     )
