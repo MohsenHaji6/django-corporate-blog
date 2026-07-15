@@ -56,13 +56,15 @@
                 <div class="flex flex-col justify-between">
                     <a href="{{article.category_main.get_absolute_url}}">
                         <p class="text-slate-500">
-                            Category: {{article.category_main}}
+                            Category: {{article.category_main|capfirst}}
                         </p></a
                     >
                     <a href="{{article.get_absolute_url}}">
-                        <h2 class="py-2">{{article.title}}</h2></a
+                        <h2 class="py-2">{{article.title|capfirst}}</h2></a
                     >
-                    <p class="text-justify">{{article.summary|truncatewords:20}}</p>
+                    <p class="text-justify">
+                        {{article.summary|capfirst|truncatewords:20}}
+                    </p>
                     <a class="py-1 font-semibold" href="{{article.get_absolute_url}}"
                         >Read more</a
                     >
