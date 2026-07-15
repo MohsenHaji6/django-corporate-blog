@@ -1,16 +1,24 @@
 from blog.models import Category
 
 
-def build_category_tree():
+def build_category_tree(paths=None):
 
-    categories = Category.objects.only(
-        "pk",
-        "name",
-        "slug",
-        "path",
-        "depth",
-        "numchild",
-    )
+    if not paths:
+        categories = Category.objects.only(
+            "pk",
+            "name",
+            "slug",
+            "path",
+            "depth",
+        )
+    else:
+        categories = Category.objects.filter(path__in=paths).only(
+            "pk",
+            "name",
+            "slug",
+            "path",
+            "depth",
+        )
 
     tree = []
     lookup = {}
@@ -21,7 +29,6 @@ def build_category_tree():
             "slug": category.slug,
             "depth": category.depth,
             "url": category.get_absolute_url(),
-            "has_children": category.numchild > 0,
             "children": [],
         }
         lookup[category.path] = node

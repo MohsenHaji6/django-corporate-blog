@@ -1,39 +1,55 @@
 {% for category in categories %}
 <div
-    x-data="{ open: false }"
+    x-data="{ open: {% if category.pk in open_category_ids %}true{%else%}false{%endif%} }"
     @focusin="open = true"
     @focusout="open = false"
-    @mouseenter="open = true"
-    @mouseleave="open = false"
-    style="padding-right: {{ category.depth }}rem;"
 >
     <div class="flex items-center py-2">
         <a
             href="{{ category.url }}"
-            class="hover:font-semibold focus-visible:font-semibold"
+            class="hover:font-semibold focus-visible:font-semibold {% if request.path == category.url %} font-semibold {% endif %}"
         >
-            {{ category.name }}
+            <span class="align-text-bottom"> {{ category.name }} </span>
         </a>
-        {% if category.has_children %}
-        <svg
-            class="w-4 h-4 transition-transform"
-            :class="{ '-rotate-90': open }"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 19l-7-7 7-7"
-            />
-        </svg>
-        {% endif %}
+        {% if category.children %} {% if LANGUAGE_BIDI %}
+        <div class="mx-2 hover:scale-90 hover:cursor-pointer" @click="open = !open">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="#155DFC"
+                class="size-5 transition-transform duration-300"
+                :class="{ 'rotate-90': open }"
+            >
+                >
+                <path
+                    fill-rule="evenodd"
+                    d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                    clip-rule="evenodd"
+                />
+            </svg>
+        </div>
+        {% else %}
+        <div class="mx-2 hover:scale-90 hover:cursor-pointer" @click="open = !open">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="#155DFC"
+                class="size-5 transition-transform duration-300"
+                :class="{ 'rotate-90': open }"
+            >
+                >
+                <path
+                    fill-rule="evenodd"
+                    d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                    clip-rule="evenodd"
+                />
+            </svg>
+        </div>      
+        {% endif %} {% endif %}
     </div>
 
-    {% if category.has_children %}
-    <div x-show="open" x-collapse>
+    {% if category.children %}
+    <div x-show="open" x-collapse class="w-65 px-5">
         <!-- prettier-ignore -->
         {% include "category_tree.html" with categories=category.children %}
     </div>

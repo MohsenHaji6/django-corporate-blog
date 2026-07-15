@@ -1,11 +1,16 @@
-<div class="flex items-center gap-2 pr-5 pb-2 text-m text-slate-600">
-    {% for breadcrumb in breadcrumbs %} {% if breadcrumb.url %}
+<div class="flex items-center gap-2 px-5 pb-2 text-m text-slate-600">
+    <!-- prettier-ignore -->
+    {% for breadcrumb in breadcrumbs %} 
+    {% if breadcrumb.url %}
     <a href="{{ breadcrumb.url }}" class="text-blue-800 hover:underline">
-        {{ breadcrumb.title }}</a
+        {{ breadcrumb.title|capfirst }}</a
     >
     {% else %}
-    <span class="text-slate-600">{{ breadcrumb.title }}</span>
-    {% endif %} {% if not forloop.last %}
+    <span class="text-slate-600">{{ breadcrumb.title|capfirst }}</span>
+    <!-- prettier-ignore -->
+    {% endif %} 
+    {% if not forloop.last %} 
+    {% if LANGUAGE_BIDI %}
     <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -20,5 +25,21 @@
             d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5"
         />
     </svg>
-    {% endif %} {% endfor %}
+    {% else %}
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-3.5 mt-1"
+    >
+        <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
+        />
+    </svg>
+
+    {% endif %} {% endif %} {% endfor %}
 </div>

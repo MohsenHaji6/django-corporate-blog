@@ -1,51 +1,75 @@
 {% extends '_base.html' %}
-
-<!--title-->
+{% load media_placeholder %}
+<!--Title-->
 {% block title %}Blog{% endblock title %}
-<!--content-->
-{% block content %} {% include 'breadcrumb.html' %}
-<div
-    class="grid grid-cols-4 bg-white mb-5 shadow shadow-slate-300 rounded-2xl p-5 gap-5"
->
-    <!--content sidebar-->
-    <div class="bg-slate-50 rounded-2xl shadow pt-5">
-        {% include 'category_tree.html' %}
-    </div>
-    <!--content blog card-->
-    <div class="grid bg-slate-50 col-span-3 rounded-2xl p-5 shadow gap-5">
-        <!--blog card-->
+<!--Content-->
+{% block content %}
 
-        {% for article in page_articles %}
+<!-- Breadcrumb -->
+{% include 'breadcrumb.html' %}
+<div class="grid grid-cols-4 bg-white shadow shadow-slate-300 rounded-2xl p-5 gap-5">
+    <!-- Sidebar -->
+    <div class="bg-slate-50 rounded-2xl shadow p-3">
+        {% include 'category_tree.html' %}
+        <!-- Tags -->
+        {% if tags %}
+        <div>
+            <div class="border-t border-slate-200 my-5 "></div>
+            {% for tag in tags %}
+            <a
+                href="{{ tag.get_absolute_url }}"
+                class="hover:font-semibold hover:text-blue-600"
+                >{{ tag.name }}</a
+            ><span> - </span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <!-- Blog Card Content -->
+    <div class="grid bg-slate-50 col-span-3 rounded-2xl p-5 shadow gap-5">
+        {% for article in articles %}
 
         <div
-            class="grid grid-cols-2 rounded-2xl shadow shadow-blue-950 overflow-hidden"
+            class="grid grid-cols-3 rounded-2xl shadow shadow-slate-300 overflow-hidden hover:shadow-sm hover:shadow-blue-800"
         >
-            <div class="flex flex-col h-full justify-between pr-5 pt-2 pb-2">
+            <div class="flex flex-col col-span-2 justify-around px-5 py-3">
                 <div class="flex gap-1">
-                    <h4>{{ article.datetime_updated }} |</h4>
-                    <h4>Category: {{ article.category_main }}</h4>
+                    <h4 class="text-sm text-slate-400">
+                        {{ article.datetime_updated|date:"Y M d" }} - Category :
+                    </h4>
+                    <a href="{{article.category_main.get_absolute_url}}">
+                        <h4 class="text-sm text-slate-400">
+                            {{ article.category_main }}
+                        </h4></a
+                    >
                 </div>
                 <div>
-                    <h2>{{ article.title }}</h2>
+                    <a href="{{ article.get_absolute_url }}"
+                        ><h2>{{ article.title }}</h2></a
+                    >
                 </div>
                 <div>
-                    <p>{{ article.summary|safe }}</p>
+                    <p>{{ article.summary|safe|truncatewords:30 }}</p>
                 </div>
                 <div>
-                    <a href="{{ article.get_absolute_url }}">Read more</a>
+                    <a href="{{ article.get_absolute_url }}" class="hover:font-semibold"
+                        >Read more</a
+                    >
                 </div>
             </div>
             <div class="overflow-hidden shadow justify-items-center">
-                <img
+                {% placeholder 300 300 "Article Image" %}
+                {% comment %} <img
                     src="{{ article.image.url }}"
                     alt="{{ article.image_alt_text }}"
-                    class="w-105 h-80 shadow hover:scale-110 transition duration-300"
-                />
+                    class="shadow hover:scale-103 transition duration-300"
+                    width="300"
+                /> {% endcomment %}
             </div>
         </div>
         {% endfor %}
         <div class="inline-flex items-center gap-3">
-            {% if page_articles.has_previous %}
+            {% if articles.has_previous %}
             <a href="?page=1" class="group flex h-10 w-10 items-center justify-end">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -68,29 +92,29 @@
             </a>
 
             <a
-                href="?page={{ page_articles.previous_page_number }}"
+                href="?page={{ articles.previous_page_number }}"
                 class="flex h-10 w-10 items-center justify-center rounded-sm border border-slate-200 bg-white text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-md"
             >
-                {{ page_articles.previous_page_number }}
+                {{ articles.previous_page_number }}
             </a>
             {% endif %}
 
             <span
                 class="flex h-10 w-10 items-center justify-center rounded-sm bg-blue-500 text-sm font-bold text-white shadow-md ring-2 ring-blue-200"
             >
-                {{ page_articles.number }}
+                {{ articles.number }}
             </span>
 
-            {% if page_articles.has_next %}
+            {% if articles.has_next %}
             <a
-                href="?page={{ page_articles.next_page_number }}"
+                href="?page={{ articles.next_page_number }}"
                 class="flex h-10 w-10 items-center justify-center rounded-sm border border-slate-200 bg-white text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-md"
             >
-                {{ page_articles.next_page_number }}
+                {{ articles.next_page_number }}
             </a>
 
             <a
-                href="?page={{ page_articles.paginator.num_pages }}"
+                href="?page={{ articles.paginator.num_pages }}"
                 class="group flex h-10 w-10 items-center justify-start"
             >
                 <svg
