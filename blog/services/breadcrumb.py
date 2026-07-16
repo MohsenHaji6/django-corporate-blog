@@ -18,7 +18,7 @@ def build_category_breadcrumb(category):
             "url": reverse("core:home"),
         },
         {
-            "title": "Blogs",
+            "title": "Blog",
             "url": reverse("blog:list"),
         },
     ]

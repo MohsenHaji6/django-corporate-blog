@@ -1,0 +1,67 @@
+<div class="inline-flex items-center gap-3">
+    {% if articles.has_previous %}
+    <a href="?page=1" class="group flex h-10 w-10 items-center justify-end">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="size-4 group-hover:animate-arrow-left"
+        >
+            <path
+                fill-rule="evenodd"
+                d="M10.72 11.47a.75.75 0 0 0 0 1.06l7.5 7.5a.75.75 0 1 0 1.06-1.06L12.31 12l6.97-6.97a.75.75 0 0 0-1.06-1.06l-7.5 7.5Z"
+                clip-rule="evenodd"
+            />
+
+            <path
+                fill-rule="evenodd"
+                d="M4.72 11.47a.75.75 0 0 0 0 1.06l7.5 7.5a.75.75 0 1 0 1.06-1.06L6.31 12l6.97-6.97a.75.75 0 0 0-1.06-1.06l-7.5 7.5Z"
+                clip-rule="evenodd"
+            />
+        </svg>
+    </a>
+
+    <a
+        href="?page={{ articles.previous_page_number }}"
+        class="flex h-10 w-10 items-center justify-center rounded-sm border border-slate-200 bg-white text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-md"
+    >
+        {{ articles.previous_page_number }}
+    </a>
+    {% endif %}
+    <span
+        class="flex h-10 w-10 items-center justify-center rounded-sm bg-blue-500 text-sm font-bold text-white shadow-md ring-2 ring-blue-200"
+    >
+        {{ articles.number }}
+    </span>
+    {% if articles.has_next %}
+    <a
+        href="?page={{ articles.next_page_number }}"
+        class="flex h-10 w-10 items-center justify-center rounded-sm border border-slate-200 bg-white text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-md"
+    >
+        {{ articles.next_page_number }}
+    </a>
+    <a
+        href="?page={{ articles.paginator.num_pages }}"
+        class="group flex h-10 w-10 items-center justify-start"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="size-4 group-hover:animate-arrow-right"
+        >
+            <path
+                fill-rule="evenodd"
+                d="M13.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L11.69 12 4.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                clip-rule="evenodd"
+            />
+
+            <path
+                fill-rule="evenodd"
+                d="M19.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06L17.69 12l-6.97-6.97a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                clip-rule="evenodd"
+            />
+        </svg>
+    </a>
+    {% endif %}
+</div>

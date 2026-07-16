@@ -31,7 +31,7 @@ def blog_list_view(request):
     pagination = Paginator(articles, 15)
     page_articles = pagination.get_page(request.GET.get("page"))
 
-    breadcrumbs = [{"title": "Home", "url": reverse("core:home")}, {"title": "Blogs"}]
+    breadcrumbs = [{"title": "Home", "url": reverse("core:home")}, {"title": "Blog"}]
     return render(
         request,
         "blog/blog_list.html",
@@ -49,6 +49,9 @@ def category_list_view(request, slug):
         status=Article.Status.PUBLISHED, category_main=category
     )
 
+    pagination = Paginator(articles, 15)
+    page_articles = pagination.get_page(request.GET.get("page"))
+
     open_category_ids = [
         cat.id  # type: ignore
         for cat in category.get_ancestors()
@@ -60,8 +63,9 @@ def category_list_view(request, slug):
         request,
         "blog/blog_list.html",
         {
-            "articles": articles,
+            "articles": page_articles,
             "categories": build_category_tree(),
+            "category": category,
             "open_category_ids": open_category_ids,
             "breadcrumbs": build_category_breadcrumb(category),
         },
@@ -74,6 +78,9 @@ def tag_view(request, slug):
     articles = Article.objects.filter(
         status=Article.Status.PUBLISHED, tags=tag
     ).select_related("category_main")
+
+    pagination = Paginator(articles, 15)
+    page_articles = pagination.get_page(request.GET.get("page"))
 
     categories = Category.objects.filter(
         id__in=articles.values_list("category_main_id", flat=True).distinct()
@@ -94,6 +101,7 @@ def tag_view(request, slug):
 
     breadcrumbs = [
         {"title": "Home", "url": reverse("core:home")},
+        {"title": "Blog", "url": reverse("blog:list")},
         {"title": tag},
     ]
 
@@ -101,9 +109,10 @@ def tag_view(request, slug):
         request,
         "blog/blog_list.html",
         {
-            "articles": articles,
+            "articles": page_articles,
             "breadcrumbs": breadcrumbs,
             "categories": build_category_tree(paths),
+            "tag": tag,
             "tags": tags,
         },
     )

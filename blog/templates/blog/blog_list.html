@@ -1,7 +1,15 @@
-{% extends '_base.html' %}
+<!-- prettier-ignore -->
+{% extends '_base.html' %} 
 {% load media_placeholder %}
+
 <!--Title-->
-{% block title %}Blog{% endblock title %}
+<!-- prettier-ignore -->
+{% block title %}{% if category %}{{category.meta_title }}{% elif tag %} 
+{{tag.meta_title}}{% else %}Blog{% endif %}{% endblock title %}
+
+{% block meta_description %}{% if category %}{{category.meta_description }}{% elif tag %}
+{{tag.meta_description}}{% else %}Latest articles{% endif %}{% endblock %}
+
 <!--Content-->
 {% block content %}
 
@@ -14,129 +22,83 @@
         <!-- Tags -->
         {% if tags %}
         <div>
-            <div class="border-t border-slate-200 my-5 "></div>
+            <div class="border-t border-slate-200 my-5"></div>
             {% for tag in tags %}
             <a
                 href="{{ tag.get_absolute_url }}"
                 class="hover:font-semibold hover:text-blue-600"
-                >{{ tag.name }}</a
+                >{{ tag.name|capfirst }}</a
             ><span> - </span>
             {% endfor %}
         </div>
         {% endif %}
     </div>
     <!-- Blog Card Content -->
-    <div class="grid bg-slate-50 col-span-3 rounded-2xl p-5 shadow gap-5">
-        {% for article in articles %}
-
-        <div
-            class="grid grid-cols-3 rounded-2xl shadow shadow-slate-300 overflow-hidden hover:shadow-sm hover:shadow-blue-800"
-        >
-            <div class="flex flex-col col-span-2 justify-around px-5 py-3">
-                <div class="flex gap-1">
-                    <h4 class="text-sm text-slate-400">
-                        {{ article.datetime_updated|date:"Y M d" }} - Category :
-                    </h4>
-                    <a href="{{article.category_main.get_absolute_url}}">
-                        <h4 class="text-sm text-slate-400">
-                            {{ article.category_main }}
-                        </h4></a
-                    >
-                </div>
-                <div>
-                    <a href="{{ article.get_absolute_url }}"
-                        ><h2>{{ article.title }}</h2></a
-                    >
-                </div>
-                <div>
-                    <p>{{ article.summary|safe|truncatewords:30 }}</p>
-                </div>
-                <div>
-                    <a href="{{ article.get_absolute_url }}" class="hover:font-semibold"
-                        >Read more</a
-                    >
-                </div>
-            </div>
-            <div class="overflow-hidden shadow justify-items-center">
-                {% placeholder 300 300 "Article Image" %}
-                {% comment %} <img
-                    src="{{ article.image.url }}"
-                    alt="{{ article.image_alt_text }}"
-                    class="shadow hover:scale-103 transition duration-300"
-                    width="300"
-                /> {% endcomment %}
-            </div>
+    <div class="grid col-span-3 gap-5">
+        {% if tag %}
+        <div class="grid bg-slate-50 shadow p-5 rounded-2xl gap-2">
+            <h1 class="text-2xl">Articles related to the tag: {{tag.name|capfirst}}</h1>
+            <p class="text-justify">{{tag.description|capfirst}}</p>
         </div>
-        {% endfor %}
-        <div class="inline-flex items-center gap-3">
-            {% if articles.has_previous %}
-            <a href="?page=1" class="group flex h-10 w-10 items-center justify-end">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="size-4 group-hover:animate-arrow-right"
-                >
-                    <path
-                        fill-rule="evenodd"
-                        d="M13.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L11.69 12 4.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
-                        clip-rule="evenodd"
-                    />
+        {% elif category %}
+        <div class="grid bg-slate-50 shadow p-5 rounded-2xl gap-2">
+            <!-- prettier-ignore -->
+            <h1 class="text-2xl">Articles related to the Category: 
+                {{category.name|capfirst}}</h1>
+            <p class="text-justify">{{category.description|capfirst}}</p>
+        </div>
+        {% else %}
+        <div class="grid bg-slate-50 shadow p-5 rounded-2xl gap-2">
+            <h1 class="text-2xl">Latest blog articles</h1>
+        </div>
+        {% endif %}
 
-                    <path
-                        fill-rule="evenodd"
-                        d="M19.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06L17.69 12l-6.97-6.97a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
-                        clip-rule="evenodd"
-                    />
-                </svg>
-            </a>
-
-            <a
-                href="?page={{ articles.previous_page_number }}"
-                class="flex h-10 w-10 items-center justify-center rounded-sm border border-slate-200 bg-white text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-md"
+        <div class="grid bg-slate-50 rounded-2xl p-5 shadow gap-5">
+            {% for article in articles %}
+            <div
+                class="grid grid-cols-3 rounded-2xl shadow shadow-slate-300 overflow-hidden hover:shadow-sm hover:shadow-blue-600"
             >
-                {{ articles.previous_page_number }}
-            </a>
-            {% endif %}
-
-            <span
-                class="flex h-10 w-10 items-center justify-center rounded-sm bg-blue-500 text-sm font-bold text-white shadow-md ring-2 ring-blue-200"
-            >
-                {{ articles.number }}
-            </span>
-
-            {% if articles.has_next %}
-            <a
-                href="?page={{ articles.next_page_number }}"
-                class="flex h-10 w-10 items-center justify-center rounded-sm border border-slate-200 bg-white text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-md"
-            >
-                {{ articles.next_page_number }}
-            </a>
-
-            <a
-                href="?page={{ articles.paginator.num_pages }}"
-                class="group flex h-10 w-10 items-center justify-start"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="size-4 group-hover:animate-arrow-left"
-                >
-                    <path
-                        fill-rule="evenodd"
-                        d="M10.72 11.47a.75.75 0 0 0 0 1.06l7.5 7.5a.75.75 0 1 0 1.06-1.06L12.31 12l6.97-6.97a.75.75 0 0 0-1.06-1.06l-7.5 7.5Z"
-                        clip-rule="evenodd"
+                <div class="flex flex-col col-span-2 justify-around px-5 py-3">
+                    <div class="flex gap-1">
+                        <h4 class="text-sm text-slate-400">
+                            {{ article.datetime_updated|date:"Y M d" }} - Category:
+                        </h4>
+                        <a href="{{article.category_main.get_absolute_url}}">
+                            <h4 class="text-sm text-slate-400">
+                                {{ article.category_main }}
+                            </h4></a
+                        >
+                    </div>
+                    <div>
+                        <a href="{{ article.get_absolute_url }}">
+                            <h2>{{ article.title }}</h2></a
+                        >
+                    </div>
+                    <div>
+                        <p>{{ article.summary|safe|truncatewords:30 }}</p>
+                    </div>
+                    <div>
+                        <a
+                            href="{{ article.get_absolute_url }}"
+                            class="hover:font-semibold"
+                            >Read more</a
+                        >
+                    </div>
+                </div>
+                <div class="overflow-hidden shadow justify-items-center">
+                    {% placeholder 300 300 "Article Image" %} {% comment %}
+                    <img
+                        src="{{ article.image.url }}"
+                        alt="{{ article.image_alt_text }}"
+                        class="shadow hover:scale-103 transition duration-300"
+                        width="300"
                     />
-
-                    <path
-                        fill-rule="evenodd"
-                        d="M4.72 11.47a.75.75 0 0 0 0 1.06l7.5 7.5a.75.75 0 1 0 1.06-1.06L6.31 12l6.97-6.97a.75.75 0 0 0-1.06-1.06l-7.5 7.5Z"
-                        clip-rule="evenodd"
-                    />
-                </svg>
-            </a>
-            {% endif %}
+                    {% endcomment %}
+                </div>
+            </div>
+            {% endfor %}
+            <!-- Pagination -->
+            {% include 'blog/pagination.html' %}
         </div>
     </div>
 </div>
