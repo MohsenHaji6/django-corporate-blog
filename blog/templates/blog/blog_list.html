@@ -4,11 +4,9 @@
 
 <!--Title-->
 <!-- prettier-ignore -->
-{% block title %}{% if category %}{{category.meta_title }}{% elif tag %} 
-{{tag.meta_title}}{% else %}Blog{% endif %}{% endblock title %}
+{% block title %}{% if category %}{{category.meta_title }}{% elif tag %}{{tag.meta_title}}{% else %}Blog{% endif %}{% endblock title %}
 
-{% block meta_description %}{% if category %}{{category.meta_description }}{% elif tag %}
-{{tag.meta_description}}{% else %}Latest articles{% endif %}{% endblock %}
+{% block meta_description %}{% if category %}{{category.meta_description }}{%elif tag%}{{tag.meta_description}}{%else%}Latest blog articles{%endif%}{% endblock %}
 
 <!--Content-->
 {% block content %}
@@ -105,6 +103,10 @@
 {% endblock content %}
 <!--Script-->
 {% block extra_js %}
+<script
+    defer
+    src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"
+></script>
 <script
     defer
     src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"

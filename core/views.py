@@ -11,7 +11,6 @@ from .services import search
 
 
 def home_view(request):
-
     articles = Article.objects.filter(status=Article.Status.PUBLISHED).select_related(
         "category_main"
     )[:3]

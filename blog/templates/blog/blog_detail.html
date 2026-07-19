@@ -1,7 +1,10 @@
 {% extends '_base.html' %}
 {% load static %}
 <!--Title-->
-{% block title %} {{ article.meta_title }} {% endblock title %}
+{% block title %}{{article.meta_title}}{% endblock title %}
+
+{% block meta_description %}{{article.meta_description}}{% endblock meta_description %}
+    
 <!--Content-->
 {% block content %} {% include 'includes/breadcrumb.html' %}
 <div
@@ -44,6 +47,7 @@
         <div
             class="grid bg-slate-50 rounded-2xl p-5 shadow max-h-100 overflow-y-scroll"
         >
+        <div class="mb-5"><h3>Your valuable comments...</h3></div>
             {% for comment in page_comments %}
             <div class="flex flex-col flex-2 p-3 gap-2">
                 <div class="flex flex-row justify-start items-center gap-3">
@@ -60,10 +64,11 @@
         <div
             class="flex flex-col items-stretch bg-slate-50 rounded-2xl p-5 shadow"
         >
+            <div class="mb-5"><h3>Write your comment.</h3></div>
             <form
                 action=""
                 method="POST"
-                class="grid grid-cols-1 w-full h-70 justify-between"
+                class="grid grid-cols-1 w-full justify-around min-h-75"
                 id="form"
                 data-scroll="{% if form.errors or messages %}true{% else %}false
                 {% endif %}">
@@ -73,7 +78,7 @@
                         {{ message.success }}
                         <label for="name">Name *</label>
                         <input
-                            class="border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
+                            class="border border-gray-300 rounded px-4 py-2 hover:border-blue-400 focus-within:outline-blue-400"
                             type="text"
                             name="name"
                             id="name"
@@ -89,7 +94,7 @@
                     <div class="grid grid-cols-1 w-full">
                         <label for="email">Email *</label>
                         <input
-                            class="border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
+                            class="border border-gray-300 rounded px-4 py-2 hover:border-blue-400 focus-within:outline-blue-400"
                             type="email"
                             name="email"
                             id="email"
@@ -103,20 +108,19 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="mt-2 pb-2 overflow-hidden">
+                <div class="my-2 overflow-hidden min-h-42">
                     <textarea
-                        class="border border-gray-300 rounded py-2 px-4 w-full h-full hover:border-blue-400 focus-within:outline-blue-400"
+                        class="border border-gray-300 rounded w-full px-4 py-2 h-full hover:border-blue-400 focus-within:outline-blue-400"
                         name="body"
                         id="body"
-                        placeholder="Your comment..."
-                    >{{ form.body.value|default:''}}</textarea>
+                        placeholder="Your comment...">{{ form.body.value|default:''}}</textarea>
                 </div>
                 {% if form.body.errors %}
                 <p class="mt-1 text-sm text-red-500 z-10">{{ form.body.errors.0 }}</p>
                 {% endif %}
                 <button
                     type="submit"
-                    class="bg-blue-500 text-white text-lg rounded px-4 w-full hover:bg-blue-600 focus-within:outline-blue-600"
+                    class="bg-blue-500 text-white text-lg rounded w-full py-2 hover:bg-blue-600 focus-within:outline-blue-600"
                 >
                     Send
                 </button>

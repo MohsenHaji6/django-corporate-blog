@@ -75,6 +75,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "marketing.context_processors.subscriber_form",
+                "core.context_processors.site_setting",
             ],
         },
     },

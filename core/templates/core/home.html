@@ -4,7 +4,7 @@
 {% load static %}
 
 <!-- title -->
-{% block title %} home {% endblock title %}
+{% block title %}Home {% endblock title %}
 
 <!-- Content -->
 {% block content %}
@@ -14,13 +14,8 @@
         class="grid grid-cols-2 justify-items-center-safe items-center bg-blue-200 rounded-2xl"
     >
         <div class="grid grid-rows-2 gap-5 mx-10">
-            <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
-            <p>
-                Lorem ipsum eius proident magni aspernatur obcaecati architecto quae
-                veritatis do cupiditate nostrud numquam aliqua magna architecto ut
-                nesciunt tempora quos ullamco officia vero ea quisquam fugit fugit est
-                quae duis quas
-            </p>
+            <h1>{{ setting.title|capfirst}}</h1>
+            <p>{{ setting.description|capfirst}}</p>
             <div class="flex gap-5">
                 <a
                     href="{% url 'catalog:catalog' %}"

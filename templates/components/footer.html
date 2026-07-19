@@ -57,7 +57,7 @@
                         clip-rule="evenodd"
                     />
                 </svg>
-                <span class="flex gap-3"> from 8:00 to 20:00 </span>
+                <span class="flex gap-3">{{ setting.answer_hours|capfirst }}</span>
             </div>
             <a href="tel:09128013692" class="flex gap-2"
                 ><svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -91,7 +91,9 @@
             <a href="{% url 'core:about' %}" class="hover:text-blue-800 hover:underline"
                 >About</a
             >
-            <a href="{% url 'catalog:catalog' %}" class="hover:text-blue-800 hover:underline"
+            <a
+                href="{% url 'catalog:catalog' %}"
+                class="hover:text-blue-800 hover:underline"
                 >Catalog</a
             >
             <a href="#" class="hover:text-blue-800 hover:underline">Privacy Policy</a>
@@ -129,7 +131,7 @@
         </div>
     </div>
     <div class="grid place-items-start mt-3 pt-2 border-t border-slate-200">
-        <p>Copyright © 2026 YadakOtol.com</p>
+        <p>{{ setting.copyright }}</p>
         <p class="text-sm">Designed by M.Hajizadeh 09128013692</p>
     </div>
 </div>
