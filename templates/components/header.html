@@ -1,4 +1,4 @@
-{% load media_placeholder %} {% load static %}
+{% load placeholder_tags %} {% load static %}
 <div id="header" class="fixed z-50 left-0 right-0 transition-all duration-400">
     <div class="mx-5">
         <div
@@ -78,9 +78,9 @@
                     </form>
                 </div>
                 <a
-                    href="{% url 'price_list' %}"
+                    href="{% url 'catalog:catalog' %}"
                     class="flex flex-row w-2/6 h-11 justify-center text-white py-2 rounded-sm bg-blue-500 hover:bg-blue-600"
-                    >Price List</a
+                    >Catalog</a
                 >
             </div>
         </div>

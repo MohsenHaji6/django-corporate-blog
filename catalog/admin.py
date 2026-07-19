@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product, ProductVariant, Subscriber
+from .models import Product, ProductVariant
 
 
 class ProductVariantInline(admin.TabularInline):
@@ -15,9 +15,3 @@ class ProductVariantInline(admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductVariantInline]
-
-
-@admin.register(Subscriber)
-class SubscriberAdmin(admin.ModelAdmin):
-    list_display = ("name", "phone_number", "datetime_created")
-    search_fields = ("name", "phone_number")

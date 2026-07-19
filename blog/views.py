@@ -4,11 +4,14 @@ from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from blog.forms import CommentCreateViewForm
+from blog.forms import CommentForm
+from core.services import (
+    build_article_breadcrumb,
+    build_category_breadcrumb,
+    build_category_tree,
+)
 
 from .models import Article, Category, Comment, Tag
-from .services.breadcrumb import build_article_breadcrumb, build_category_breadcrumb
-from .services.category_tree import build_category_tree
 
 
 def blog_list_view(request):
@@ -20,7 +23,7 @@ def blog_list_view(request):
             "pk",
             "title",
             "summary",
-            "datetime_updated",
+            "updated_at",
             "category_main",
             "slug",
             "image",
@@ -43,7 +46,7 @@ def blog_list_view(request):
     )
 
 
-def category_list_view(request, slug):
+def blog_category_list_view(request, slug):
     category = get_object_or_404(Category, slug=slug)
     articles = Article.objects.filter(
         status=Article.Status.PUBLISHED, category_main=category
@@ -72,7 +75,7 @@ def category_list_view(request, slug):
     )
 
 
-def tag_view(request, slug):
+def blog_tag_list_view(request, slug):
     tag = get_object_or_404(Tag, slug=slug)
 
     articles = Article.objects.filter(
@@ -138,7 +141,7 @@ def blog_detail_view(request, slug):
     page_comments = pagination.get_page(request.GET.get("page"))
 
     if request.method == "POST":
-        form = CommentCreateViewForm(request.POST)
+        form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.article = article
@@ -152,7 +155,7 @@ def blog_detail_view(request, slug):
         else:
             pass
     else:
-        form = CommentCreateViewForm()
+        form = CommentForm()
 
     return render(
         request,

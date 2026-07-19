@@ -47,8 +47,9 @@ INSTALLED_APPS = [
     # Local apps
     "accounts",
     "blog",
-    "news",
+    "catalog",
     "core",
+    "marketing",
 ]
 
 MIDDLEWARE = [
@@ -73,7 +74,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "news.context_processors.subscriber_form",
+                "marketing.context_processors.subscriber_form",
             ],
         },
     },

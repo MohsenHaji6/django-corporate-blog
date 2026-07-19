@@ -4,10 +4,10 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from blog.models import Article
-from news.models import ProductVariant
+from catalog.models import ProductVariant
 
 from .forms import ContactMessageForm
-from .services.search import search
+from .services import search
 
 
 def home_view(request):
@@ -15,7 +15,7 @@ def home_view(request):
     articles = Article.objects.filter(status=Article.Status.PUBLISHED).select_related(
         "category_main"
     )[:3]
-    products = ProductVariant.objects.filter(in_stock=True).order_by("-updated_date")[:3]
+    products = ProductVariant.objects.filter(in_stock=True).order_by("-updated_at")[:3]
 
     if request.method == "POST":
         form = ContactMessageForm(request.POST)

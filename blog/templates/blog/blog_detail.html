@@ -3,7 +3,7 @@
 <!--Title-->
 {% block title %} {{ article.meta_title }} {% endblock title %}
 <!--Content-->
-{% block content %} {% include 'breadcrumb.html' %}
+{% block content %} {% include 'includes/breadcrumb.html' %}
 <div
     class="grid auto-rows-auto bg-white gap-5 shadow shadow-slate-300 rounded-2xl p-5"
 >
@@ -13,7 +13,7 @@
             <div class="flex flex-col gap-5">
                 <div class="flex gap-5">
                     <span class="text-sm text-slate-400"
-                        >Last updated: {{ article.datetime_updated|date:"F j, Y" }}
+                        >Last updated: {{ article.updated_at|date:"F j, Y" }}
                     </span>
                     <span class="text-sm text-slate-400">
                         Category: {{ article.category_main.name }}</span
@@ -48,7 +48,7 @@
             <div class="flex flex-col flex-2 p-3 gap-2">
                 <div class="flex flex-row justify-start items-center gap-3">
                     <span class="text-sm text-slate-400"
-                        >{{ comment.datetime_created}}</span
+                        >{{ comment.created_at}}</span
                     >
                     <span class="font-bold">{{ comment.name}}</span>
                 </div>

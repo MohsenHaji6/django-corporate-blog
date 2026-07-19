@@ -15,12 +15,12 @@
     </head>
     <body class="bg-slate-50 text-slate-800 min-h-screen">
         <main class="p-5 pt-3 pb-3">
-            <header>{% include 'header.html' %}</header>
+            <header>{% include 'components/header.html' %}</header>
 
             <!--Main Content-->
             <div class="mt-27">{% block content %} {% endblock content %}</div>
 
-            <footer>{% include 'footer.html' %}</footer>
+            <footer>{% include 'components/footer.html' %}</footer>
         </main>
         {% block extra_js %}{% endblock %}
     </body>

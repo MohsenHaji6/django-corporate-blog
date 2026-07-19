@@ -1,5 +1,5 @@
 <!-- prettier-ignore -->
-{% load media_placeholder %} 
+{% load placeholder_tags %} 
 {% load static %}
 <div
     class="grid grid-rows-none place-items-stretch mt-5 p-5 z-50 shadow shadow-slate-300 rounded-2xl bg-white"
@@ -10,7 +10,7 @@
             <p>Subscribe to our newsletter to get the latest updates.</p>
             <form
                 class="grid gap-1"
-                action="{% url 'subscribe' %}"
+                action="{% url 'marketing:subscriber' %}"
                 method="post"
                 id="subscribe-form"
             >
@@ -91,19 +91,22 @@
             <a href="{% url 'core:about' %}" class="hover:text-blue-800 hover:underline"
                 >About</a
             >
-            <a href="{% url 'price_list' %}" class="hover:text-blue-800 hover:underline"
-                >Price List</a
+            <a href="{% url 'catalog:catalog' %}" class="hover:text-blue-800 hover:underline"
+                >Catalog</a
             >
             <a href="#" class="hover:text-blue-800 hover:underline">Privacy Policy</a>
         </div>
         <div class="grid col-span-7 items-center">
             <div class="flex gap-5 justify-center h-10">
-                <a href=""
-                    ><img
+                <a href="">
+                    {% placeholder 50 50 "icon" False%} {% comment %}
+                    <img
                         src="{% static 'images/svg/telegram.svg' %}"
                         alt="Telegram"
                         class="w-12 h-12 hover:scale-102"
-                /></a>
+                    />
+                    {% endcomment %}
+                </a>
                 <a href=""
                     ><img
                         src="{% static 'images/svg/whatsapp.svg' %}"

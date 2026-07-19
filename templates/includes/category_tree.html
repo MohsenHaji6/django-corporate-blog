@@ -51,7 +51,7 @@
     {% if category.children %}
     <div x-show="open" x-collapse class="w-65 px-5">
         <!-- prettier-ignore -->
-        {% include "category_tree.html" with categories=category.children %}
+        {% include "includes/category_tree.html" with categories=category.children %}
     </div>
     {% endif %}
 </div>

@@ -6,7 +6,7 @@
 {% endblock title %}
     
 {% block content %}
-{% include 'breadcrumb.html' %}
+{% include 'includes/breadcrumb.html' %}
 <div class="flex flex-col bg-white shadow shadow-slate-300 rounded-2xl p-5 gap-5">
     <div class="rounded-2xl overflow-auto">
         <table class="table-auto w-full border-collapse border border-slate-400">
@@ -15,13 +15,13 @@
                     Title
                 </th>
                 <th class="bg-blue-900 text-white border border-slate-400 py-2">
-                    Attributes
+                    Features
                 </th>
                 <th class="bg-blue-900 text-white border border-slate-400 py-2">
                     Unit price
                 </th>
                 <th class="bg-blue-900 text-white border border-slate-400 py-2">
-                    Last updated date
+                    Last updated
                 </th>
                 <th class="bg-blue-900 text-white border border-slate-400 py-2">
                     Stock
@@ -42,12 +42,13 @@
                     {{ variant.title|capfirst }}
                 </td>
                 <!-- prettier-ignore -->
-                <td class="border max-w-65 border-slate-100 p-2 text-center">{{ variant.attribute}}</td>
+                <td class="border max-w-65 border-slate-100 p-2 text-center">
+                    {{variant.features}}</td>
                 <td class="border border-slate-100 p-2 text-center">
                     ${{ variant.unit_price }}
                 </td>
                 <td class="border border-slate-100 p-2 text-center">
-                    {{ variant.updated_date }}
+                    {{ variant.updated_at }}
                 </td>
                 <td class="border border-slate-100 p-2 justify-items-center">
                     {% if variant.in_stock %}
