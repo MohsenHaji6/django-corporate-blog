@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 
+from core.models import Page
+
 from .models import Product
 
 
 def catalog_view(request):
+    page = Page.objects.filter(page_type=Page.PageType.CATALOG).first()
+
     breadcrumbs = [
         {"title": _("Home"), "url": "core:home"},
         {"title": _("Catalog")},
@@ -30,5 +34,5 @@ def catalog_view(request):
     return render(
         request,
         "catalog/catalog.html",
-        {"products": product_data, "breadcrumbs": breadcrumbs},
+        {"products": product_data, "breadcrumbs": breadcrumbs, "page": page},
     )

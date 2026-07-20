@@ -30,4 +30,4 @@ class ContactMessageAdmin(admin.ModelAdmin):
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
-    list_display = ["slug"]
+    pass

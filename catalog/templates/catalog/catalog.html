@@ -1,13 +1,19 @@
 {% extends '_base.html' %}
 
 <!-- prettier-ignore -->
-{% block title %}
-    Pricing - {{ block.super }}
-{% endblock title %}
+{% block title %}{{page.meta_title}}{% endblock title %}
+
+
+{% block meta_description %}{{page.meta_description}}{% endblock meta_description %}
     
+
 {% block content %}
 {% include 'includes/breadcrumb.html' %}
 <div class="flex flex-col bg-white shadow shadow-slate-300 rounded-2xl p-5 gap-5">
+    <div class="grid bg-slate-50 rounded-2xl p-5 shadow gap-3">
+        <h1>{{page.title|capfirst}}</h1>
+        <p class="text-justify">{{page.description|capfirst}}</p>
+    </div>
     <div class="rounded-2xl overflow-auto">
         <table class="table-auto w-full border-collapse border border-slate-400">
             <tr>

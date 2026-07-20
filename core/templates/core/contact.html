@@ -2,129 +2,158 @@
 {% extends '_base.html' %} 
 {% load static %}
 
-{% block title %} Contact Us {% endblock title %}
+
+{% block meta_description %}{{page.meta_description}}{% endblock meta_description %}
+    
+{% block title %}{{page.meta_title}}{% endblock title %}
 
 {% block content %} 
 
 {% include 'includes/breadcrumb.html' %}
-<div class="bg-white grid grid-cols-2 gap-5 shadow shadow-slate-300 rounded-2xl p-5">
-    <!--box message-->
-    <div class="grid bg-slate-50 rounded-2xl p-5 shadow">
-        <h2 class="pb-2">Leave a message</h2>
-        <form action="" method="post" class="grid gap-1">
-            {% csrf_token %}
-            <label for="name">Name</label>
-            <input
-                type="text"
-                id="name"
-                name="name"
-                value="{{ form.name.value|default:'' }}"
-                class="border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
-            />
-            {% if form.name.errors %}
-            <p class="mt-1 text-sm text-red-500">{{ form.name.errors.0 }}</p>
-            {% endif %}
-            <label for="phone_number">Mobile Phone</label>
-            <input
-                type="text"
-                id="phone_number"
-                name="phone_number"
-                value="{{ form.phone_number.value|default:''}}"
-                placeholder="09..."
-                class="border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
-                required
-            />
-            {% if form.phone_number.errors %}
-            <p class="mt-1 text-sm text-red-500">{{ form.phone_number.errors.0 }}</p>
-            {% endif %}
-            <label for="message">Message</label>
-            <textarea
-                name="message"
-                id="message"
-                class="h-30 border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
-                placeholder="Please write your message..."
-                required
-            >
-{{ form.message.value|default:''}}</textarea
-            >
-            {% if form.message.errors %}
-            <p class="mt-1 text-sm text-red-500">{{ form.message.errors.0 }}</p>
-            {% endif %}
-            <button
-                type="submit"
-                class="bg-blue-500 mt-3 hover:bg-blue-600 focus-within:outline-blue-600 text-white py-2 rounded"
-            >
-                Send
-            </button>
-        </form>
+<div class="bg-white grid shadow shadow-slate-300 rounded-2xl p-5 gap-5">
+    <!--Contact title-->
+    <div class="grid bg-slate-50 rounded-2xl p-5 shadow gap-3">
+        <h1>{{page.title|capfirst}}</h1>
+        <p class="text-justify">{{page.description|capfirst}}</p>
     </div>
-    <!--Contact info-->
-    <div class="grid grid-cols-1 bg-slate-50 rounded-2xl p-10 shadow">
-        <div class="flex items-start gap-2">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="size-6"
-            >
-                <path
-                    fill-rule="evenodd"
-                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z"
-                    clip-rule="evenodd"
+    <!--Contact message-->
+    <div class="grid grid-cols-5 gap-5">
+        <div class="grid bg-slate-50 col-span-2 rounded-2xl p-5 shadow">
+            <h2 class="pb-2">Leave a message</h2>
+            <form action="" method="post" class="grid gap-1">
+                {% csrf_token %}
+                <label for="name">Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ form.name.value|default:'' }}"
+                    class="border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
                 />
-            </svg>
-            <span class="flex gap-3 text-lg font-medium">
-                You can call from 8:00 to 20:00
-            </span>
+                {% if form.name.errors %}
+                <p class="mt-1 text-sm text-red-500">{{ form.name.errors.0 }}</p>
+                {% endif %}
+                <label for="phone_number">Mobile Phone</label>
+                <input
+                    type="text"
+                    id="phone_number"
+                    name="phone_number"
+                    value="{{ form.phone_number.value|default:''}}"
+                    placeholder="09..."
+                    class="border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
+                    required
+                />
+                {% if form.phone_number.errors %}
+                <p class="mt-1 text-sm text-red-500">
+                    {{ form.phone_number.errors.0 }}
+                </p>
+                {% endif %}
+                <label for="message">Message</label>
+                <textarea
+                    name="message"
+                    id="message"
+                    class="h-30 border border-gray-300 rounded py-2 px-4 hover:border-blue-400 focus-within:outline-blue-400"
+                    placeholder="Please write your message..."
+                    required
+                >
+{{ form.message.value|default:''}}</textarea
+                >
+                {% if form.message.errors %}
+                <p class="mt-1 text-sm text-red-500">{{ form.message.errors.0 }}</p>
+                {% endif %}
+                <button
+                    type="submit"
+                    class="bg-blue-500 mt-3 hover:bg-blue-600 focus-within:outline-blue-600 text-white py-2 rounded"
+                >
+                    Send
+                </button>
+            </form>
         </div>
-        <div class="flex items-start gap-2">
-            <svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                <path
-                    fill-rule="evenodd"
-                    d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
-                    clip-rule="evenodd"
-                />
-            </svg>
-            <a href="tel:09128013692" class="text-lg font-medium">0912-801-3692</a>
-        </div>
-        <div class="flex items-start gap-2">
-            <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="icon icon-tabler icons-tabler-filled icon-tabler-brand-whatsapp"
-            >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path
-                    d="M18.497 4.409a10 10 0 0 1 -10.36 16.828l-.223 -.098l-4.759 .849l-.11 .011a1 1 0 0 1 -.11 0l-.102 -.013l-.108 -.024l-.105 -.037l-.099 -.047l-.093 -.058l-.014 -.011l-.012 -.007l-.086 -.073l-.077 -.08l-.067 -.088l-.056 -.094l-.034 -.07l-.04 -.108l-.028 -.128l-.012 -.102a1 1 0 0 1 0 -.125l.012 -.1l.024 -.11l.045 -.122l1.433 -3.304l-.009 -.014a10 10 0 0 1 1.549 -12.454l.215 -.203a10 10 0 0 1 13.226 -.217m-8.997 3.09a1.5 1.5 0 0 0 -1.5 1.5v1a6 6 0 0 0 6 6h1a1.5 1.5 0 0 0 0 -3h-1l-.144 .007a1.5 1.5 0 0 0 -1.128 .697l-.042 .074l-.022 -.007a4.01 4.01 0 0 1 -2.435 -2.435l-.008 -.023l.075 -.041a1.5 1.5 0 0 0 .704 -1.272v-1a1.5 1.5 0 0 0 -1.5 -1.5"
-                />
-            </svg>
-            <a href="" class="text-lg font-medium">0912-801-3692</a>
-        </div>
-        <div class="flex items-start gap-2">
-            <svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                <path
-                    d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z"
-                />
-                <path
-                    d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z"
-                />
-            </svg>
-            <a href="" class="text-lg font-medium">m.hajizadeh2023@gmail.com</a>
-        </div>
-        <div class="flex justify-start items-start gap-2">
-            <svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                <path
-                    fill-rule="evenodd"
-                    d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
-                    clip-rule="evenodd"
-                />
-            </svg>
-            <p class="text-lg font-medium flex w-3/4 text-justify">
-                Tehran, Qiyam Square, North Ray Street, next to Ray Bridge, left side of
-                Auto Yadak
-            </p>
+        <!--Contact info-->
+        <div class="grid grid-cols-1 col-span-3 bg-slate-50 rounded-2xl p-5 shadow">
+            <div class="flex items-center gap-2 border-b border-slate-200">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-6"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+                <span class="flex gap-3 text-lg font-medium">
+                    {{setting.answer_hours|capfirst}}
+                </span>
+            </div>
+            <div class="grid grid-cols-2 border-b border-slate-200">
+                {% for phone in phones %}
+                <div class="flex items-center gap-2">
+                    {% if phone.icon %}
+                    <img src="{{phone.icon.url}}" alt="icon" />
+                    {% else %}
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path
+                            fill-rule="evenodd"
+                            d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                    {% endif %}
+                    <a href="tel:{{phone.phone_number}}" class="text-lg font-medium">
+                        {{phone.use_for}}: {{phone.phone_number}}</a
+                    >
+                </div>
+                {% endfor %}
+            </div>
+            <div class="flex items-center gap-2 border-b border-slate-200">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                    <path
+                        d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z"
+                    />
+                    <path
+                        d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z"
+                    />
+                </svg>
+                <a href="mailto:{{setting.email}}" class="text-lg font-medium"
+                    >{{setting.email}}</a
+                >
+            </div>
+            <div class="flex items-center gap-5 border-b border-slate-200">
+                {% for social_link in social_links %}
+                <a href="{{social_link.url}}" class="flex text-lg font-medium">
+                    {% if social_link.icon %}
+                    <img
+                        src="{{social_link.icon.url}}"
+                        alt="{{social_link.name}} icon"
+                        width="30px"
+                    />
+                    {% endif %}<span class="px-2"
+                        >{{social_link.name|capfirst}}</span
+                    ></a
+                >
+                {% endfor %}
+            </div>
+
+            <div class="grid py-3">
+                {% for address in addresses %}
+                <div class="flex flex-row">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path
+                            fill-rule="evenodd"
+                            d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                    <p class="text-lg font-medium flex w-3/4 text-justify">
+                        {{address.name|capfirst}}: {{address.province|capfirst}},
+                        {{address.city|capfirst}}, {{address.address|capfirst}}
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>

@@ -7,6 +7,7 @@ from blog.models import Article
 from catalog.models import ProductVariant
 
 from .forms import ContactMessageForm
+from .models import Address, Page, PhoneNumber, SocialLink
 from .services import search
 
 
@@ -35,6 +36,7 @@ def home_view(request):
 
 
 def about_view(request):
+    page = Page.objects.filter(page_type=Page.PageType.ABOUT).first()
     breadcrumbs = [
         {
             "title": _("Home"),
@@ -44,10 +46,15 @@ def about_view(request):
             "title": _("About"),
         },
     ]
-    return render(request, "core/about.html", {"breadcrumbs": breadcrumbs})
+    return render(request, "core/about.html", {"breadcrumbs": breadcrumbs, "page": page})
 
 
 def contact_view(request):
+
+    phones = PhoneNumber.objects.filter(is_active=True).order_by("display_order")
+    addresses = Address.objects.filter(is_active=True).order_by("display_order")
+    social_links = SocialLink.objects.all().order_by("display_order")
+    page = Page.objects.filter(page_type=Page.PageType.CONTACT).first()
 
     if request.method == "POST":
         form = ContactMessageForm(request.POST)
@@ -69,7 +76,18 @@ def contact_view(request):
             "title": _("Contact"),
         },
     ]
-    return render(request, "core/contact.html", {"breadcrumbs": breadcrumbs, "form": form})
+    return render(
+        request,
+        "core/contact.html",
+        {
+            "breadcrumbs": breadcrumbs,
+            "form": form,
+            "phones": phones,
+            "addresses": addresses,
+            "social_links": social_links,
+            "page": page,
+        },
+    )
 
 
 def search_view(request):
@@ -79,3 +97,18 @@ def search_view(request):
     articles = search(query)
 
     return render(request, "core/search.html", {"articles": articles, "query": query})
+
+
+def privacy_view(request):
+    page = Page.objects.filter(page_type=Page.PageType.PRIVACY).first()
+
+    breadcrumbs = [
+        {
+            "title": _("Home"),
+            "url": reverse("core:home"),
+        },
+        {
+            "title": _("Privacy Policy"),
+        },
+    ]
+    return render(request, "core/privacy.html", {"breadcrumbs": breadcrumbs, "page": page})

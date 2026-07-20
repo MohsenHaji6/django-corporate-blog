@@ -51,7 +51,7 @@ class PhoneNumber(models.Model):
 class SocialLink(models.Model):
     name = models.CharField(_("Name"), max_length=50)
     url = models.URLField(_("Url"), max_length=254)
-    icon = models.ImageField(_("Icon"), upload_to="icons/", max_length=50)
+    icon = models.ImageField(_("Icon"), upload_to="icons/", max_length=50, blank=True)
     display_order = models.PositiveSmallIntegerField(default=0)
     is_active = models.BooleanField(_("Is Active"), default=True)
 
@@ -68,6 +68,7 @@ class Address(models.Model):
     province = models.CharField(_("Province"), max_length=50)
     city = models.CharField(_("City"), max_length=50)
     address = models.CharField(_("Address"), max_length=255)
+    display_order = models.PositiveSmallIntegerField(default=0)
     is_primary = models.BooleanField(_("Is Primary"), default=False)
     is_active = models.BooleanField(_("Is Active"), default=True)
 
