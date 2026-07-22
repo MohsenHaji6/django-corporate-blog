@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from blog.models import Article
+from blog.models import Article, Category
 from catalog.models import ProductVariant
 
 from .forms import ContactMessageForm
@@ -12,10 +12,16 @@ from .services import search
 
 
 def home_view(request):
+    root_categories = Category.get_root_nodes()
+    page = (
+        Page.objects.filter(page_type=Page.PageType.CONTACT)
+        .only("short_description")
+        .first()
+    )
     articles = Article.objects.filter(status=Article.Status.PUBLISHED).select_related(
         "category_main"
     )[:3]
-    products = ProductVariant.objects.filter(in_stock=True).order_by("-updated_at")[:3]
+    products = ProductVariant.objects.filter(in_stock=True).order_by("-updated_at")[:4]
 
     if request.method == "POST":
         form = ContactMessageForm(request.POST)
@@ -31,7 +37,13 @@ def home_view(request):
     return render(
         request,
         "core/home.html",
-        {"articles": articles, "products": products, "contact_form": form},
+        {
+            "articles": articles,
+            "products": products,
+            "contact_form": form,
+            "page": page,
+            "root_categories": root_categories,
+        },
     )
 
 
@@ -50,7 +62,6 @@ def about_view(request):
 
 
 def contact_view(request):
-
     phones = PhoneNumber.objects.filter(is_active=True).order_by("display_order")
     addresses = Address.objects.filter(is_active=True).order_by("display_order")
     social_links = SocialLink.objects.all().order_by("display_order")

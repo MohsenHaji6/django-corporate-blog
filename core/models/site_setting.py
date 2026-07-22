@@ -4,8 +4,13 @@ from django.utils.translation import gettext_lazy as _
 
 
 class SiteSetting(models.Model):
-    title = models.CharField(_("Site Title"), max_length=70)
-    description = models.CharField(_("Site Description"), max_length=160)
+    site_title = models.CharField(_("Site Title"), max_length=70)
+    site_description = models.CharField(_("Site Description"), max_length=160)
+    meta_title = models.CharField(_("Home Meta Title"), max_length=70)
+    meta_description = models.CharField(_("Home Meta Description"), max_length=160)
+    hero_title = models.CharField(_("Home Hero Title"), max_length=200)
+    hero_text = models.TextField(_("Home Hero Text"))
+    hero_image = models.ImageField(_("Home Hero Image"), upload_to="site/", max_length=50)
     logo = models.ImageField(_("Logo"), upload_to="logo/", max_length=50)
     favicon = models.ImageField(_("Favicon"), upload_to="logo/", max_length=50)
     email = models.EmailField(_("Site Email"), max_length=254)
@@ -17,7 +22,7 @@ class SiteSetting(models.Model):
         verbose_name_plural = _("Site Settings")
 
     def __str__(self) -> str:
-        return self.title
+        return self.site_title
 
     def save(self, *args, **kwargs):
         self.pk = 1

@@ -20,7 +20,7 @@ class AddressAdmin(admin.ModelAdmin):
 
 @admin.register(SiteSetting)
 class SiteSettingAdmin(admin.ModelAdmin):
-    list_display = ["title", "description"]
+    list_display = ["site_title", "site_description"]
 
 
 @admin.register(ContactMessage)

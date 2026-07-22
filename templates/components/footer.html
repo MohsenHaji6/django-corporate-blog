@@ -59,7 +59,7 @@
                 </svg>
                 <span class="flex gap-3">{{ setting.answer_hours|capfirst }}</span>
             </div>
-            <a href="tel:09128013692" class="flex gap-2"
+            <a href="tel:{{phone.phone_number}}" class="flex gap-2"
                 ><svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
                     <path
                         fill-rule="evenodd"
@@ -67,10 +67,10 @@
                         clip-rule="evenodd"
                     />
                 </svg>
-                <span>0912-801-3692</span></a
+                <span class="hover:font-semibold">{{phone.phone_number}}</span></a
             >
-            <a href="#" class="flex gap-2"
-                ><svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
+            <div class="flex gap-2">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
                     <path
                         fill-rule="evenodd"
                         d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
@@ -78,10 +78,9 @@
                     />
                 </svg>
                 <span class="flex w-3/4 text-justify"
-                    >Tehran, Qiyam Square, North Ray Street, next to Ray Bridge, left
-                    side of Auto Yadak</span
+                    >{{address.province}}, {{address.city}}, {{address.address}}</span
                 >
-            </a>
+            </div>
         </div>
         <div class="grid col-span-4 gap-3 items-start px-10">
             <h3>Links</h3>
@@ -104,27 +103,11 @@
         </div>
         <div class="grid col-span-7 items-center">
             <div class="flex gap-5 justify-center h-10">
-                <a href="">
-                    {% placeholder 50 50 "icon" False%} {% comment %}
-                    <img
-                        src="{% static 'images/svg/telegram.svg' %}"
-                        alt="Telegram"
-                        class="w-12 h-12 hover:scale-102"
-                    />
-                    {% endcomment %}
+                {% for social in social_links %}
+                <a href="{{social.url}}">
+                    <img src="{{social.icon.url}}" alt="{{social.name}}" width="55px" />
                 </a>
-                <a href=""
-                    ><img
-                        src="{% static 'images/svg/whatsapp.svg' %}"
-                        alt="WhatsApp"
-                        class="w-12 h-12 hover:scale-102"
-                /></a>
-                <a href=""
-                    ><img
-                        src="{% static 'images/svg/instagram.svg' %}"
-                        alt="Instagram"
-                        class="w-12 h-12 hover:scale-102"
-                /></a>
+                {% endfor %}
             </div>
             <div class="flex gap-5">
                 <!-- prettier-ignore -->
