@@ -47,6 +47,7 @@ def search(query):
             )
         )
         .filter(search_score__gt=0)
+        .select_related("category_main")
         .order_by("-search_score")
     )
 
