@@ -61,11 +61,7 @@
                         <h4 class="text-sm text-slate-400">
                             {{ article.updated_at|date:"Y M d" }} - Category:
                         </h4>
-                        <a href="{{article.category_main.get_absolute_url}}">
-                            <h4 class="text-sm text-slate-400">
-                                {{ article.category_main }}
-                            </h4></a
-                        >
+                        <h4 class="text-sm text-slate-400">{{category.name}}</h4>
                     </div>
                     <div>
                         <a href="{{ article.get_absolute_url }}">

@@ -48,6 +48,7 @@ def blog_list_view(request):
 
 def blog_category_list_view(request, slug):
     category = get_object_or_404(Category, slug=slug)
+
     articles = Article.objects.filter(
         status=Article.Status.PUBLISHED, category_main=category
     )
@@ -55,13 +56,13 @@ def blog_category_list_view(request, slug):
     pagination = Paginator(articles, 15)
     page_articles = pagination.get_page(request.GET.get("page"))
 
+    categories = category.get_ancestors()
     open_category_ids = [
         cat.id  # type: ignore
-        for cat in category.get_ancestors()
+        for cat in categories
     ]
     open_category_ids.append(category.id)  # type: ignore
 
-    print(open_category_ids)
     return render(
         request,
         "blog/blog_list.html",
@@ -70,7 +71,7 @@ def blog_category_list_view(request, slug):
             "categories": build_category_tree(),
             "category": category,
             "open_category_ids": open_category_ids,
-            "breadcrumbs": build_category_breadcrumb(category),
+            "breadcrumbs": build_category_breadcrumb(category, categories),
         },
     )
 
@@ -133,10 +134,6 @@ def blog_detail_view(request, slug):
         ),
         slug=slug,
     )
-    context = {
-        "meta_description": article.meta_description,
-    }
-
     pagination = Paginator(article.comments.all(), 10)  # type: ignore
     page_comments = pagination.get_page(request.GET.get("page"))
 
@@ -162,10 +159,7 @@ def blog_detail_view(request, slug):
         "blog/blog_detail.html",
         {
             "article": article,
-            "breadcrumbs": build_article_breadcrumb(article)
-            if article.category_main
-            else [],
-            **context,
+            "breadcrumbs": build_article_breadcrumb(article),
             "page_comments": page_comments,
             "form": form,
         },

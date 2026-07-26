@@ -1,7 +1,7 @@
 from django.urls import reverse
 
 
-def build_category_breadcrumb(category):
+def build_category_breadcrumb(category, categories=[]):
     """
     Build a breadcrumb trail for a given category.
 
@@ -22,7 +22,6 @@ def build_category_breadcrumb(category):
             "url": reverse("blog:list"),
         },
     ]
-    categories = category.get_ancestors()
 
     for cat in categories:
         breadcrumbs.append(
