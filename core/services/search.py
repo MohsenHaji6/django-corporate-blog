@@ -1,9 +1,10 @@
+from django.core.paginator import Paginator
 from django.db.models import Case, Exists, IntegerField, OuterRef, Q, Value, When
 
 from blog.models import Article, Tag
 
 
-def search(query):
+def search(query, request):
     if not query or len(query) < 3:
         return []
 
@@ -51,4 +52,7 @@ def search(query):
         .order_by("-search_score")
     )
 
-    return articles
+    pagination = Paginator(articles, 15)
+    page_results = pagination.get_page(request.GET.get("page"))
+
+    return page_results

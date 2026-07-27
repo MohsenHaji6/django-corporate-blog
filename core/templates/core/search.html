@@ -35,6 +35,6 @@
     </a>
     {% endfor %} {% else %}
     <p>No results found for "<span class="font-semibold">{{ query }}</span>".</p>
-    {% endif %}
+    {% endif %} {% include 'includes/pagination.html' %}
 </div>
 {% endblock %}

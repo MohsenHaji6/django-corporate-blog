@@ -1,6 +1,11 @@
+{% load pagination_tags %}
+
 <div class="inline-flex items-center gap-3">
     {% if articles.has_previous %}
-    <a href="?page=1" class="group flex h-10 w-10 items-center justify-end">
+    <a
+        href="?{% query_transform page=1 %}"
+        class="group flex h-10 w-10 items-center justify-end"
+    >
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -22,7 +27,7 @@
     </a>
 
     <a
-        href="?page={{ articles.previous_page_number }}"
+        href="?{% query_transform page=articles.previous_page_number %}"
         class="flex h-10 w-10 items-center justify-center rounded-sm border border-slate-200 bg-white text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-md"
     >
         {{ articles.previous_page_number }}
@@ -35,13 +40,13 @@
     </span>
     {% if articles.has_next %}
     <a
-        href="?page={{ articles.next_page_number }}"
+        href="?{% query_transform page=articles.next_page_number %}"
         class="flex h-10 w-10 items-center justify-center rounded-sm border border-slate-200 bg-white text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-md"
     >
         {{ articles.next_page_number }}
     </a>
     <a
-        href="?page={{ articles.paginator.num_pages }}"
+        href="?{% query_transform page=articles.paginator.num_pages %}"
         class="group flex h-10 w-10 items-center justify-start"
     >
         <svg
