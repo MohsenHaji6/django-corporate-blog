@@ -3,9 +3,10 @@
 {% load static %}
 
 
-{% block meta_description %}{{page.meta_description}}{% endblock meta_description %}
+{% block title %}{{page.meta_title|default:setting.site_title}}{% endblock title %}
+
+{% block meta_description %}{{page.meta_description|default:setting.site_description}}{% endblock meta_description %}
     
-{% block title %}{{page.meta_title}}{% endblock title %}
 
 {% block content %} 
 

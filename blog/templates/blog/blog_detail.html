@@ -1,9 +1,9 @@
 {% extends '_base.html' %}
 {% load static %}
 <!--Title-->
-{% block title %}{{article.meta_title}}{% endblock title %}
+{% block title %}{{article.meta_title|default:setting.site_title}}{% endblock title %}
 
-{% block meta_description %}{{article.meta_description}}{% endblock meta_description %}
+{% block meta_description %}{{article.meta_description|default:setting.site_description}}{% endblock meta_description %}
     
 <!--Content-->
 {% block content %} {% include 'includes/breadcrumb.html' %}

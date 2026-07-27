@@ -4,9 +4,9 @@
 
 <!--Title-->
 <!-- prettier-ignore -->
-{% block title %}{% if category %}{{category.meta_title }}{% elif tag %}{{tag.meta_title}}{% else %}Blog{% endif %}{% endblock title %}
+{% block title %}{% if category %}{{category.meta_title|default:setting.site_title}}{% elif tag %}{{tag.meta_title|default:setting.site_title}}{% else %}{{setting.site_title}}{% endif %}{% endblock title %}
 
-{% block meta_description %}{% if category %}{{category.meta_description }}{%elif tag%}{{tag.meta_description}}{%else%}Latest blog articles{%endif%}{% endblock %}
+{% block meta_description %}{% if category %}{{category.meta_description|default:setting.site_description }}{%elif tag%}{{tag.meta_description|default:setting.site_description}}{%else%}{{setting.site_description}}{%endif%}{% endblock %}
 
 <!--Content-->
 {% block content %}

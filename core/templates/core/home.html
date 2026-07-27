@@ -3,8 +3,10 @@
 {% load placeholder_tags %}
 {% load static %}
 
-<!-- title -->
-{% block title %}Home {% endblock title %}
+<!-- Meta Title -->
+{% block title %}{{setting.meta_title|default:setting.site_title}}{% endblock title %}
+<!-- Meta Description -->
+{%block meta_description%}{{setting.meta_description|default:setting.site_description}}{%endblock meta_description%}
 
 <!-- Content -->
 {% block content %}
@@ -110,8 +112,7 @@
                         style="background-image: url('{{ category.image.url }}');"
                         {% else %}
                         style="background-color: #e5e7eb"
-                        {% endif %}
-                    >
+                        {% endif %} >
                         <h4>{{category.name}}</h4>
                     </div>
                 </a>

@@ -6,10 +6,10 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="{{ setting.favicon.url }}" data-next-head />
-        <title>{% block title %} {% endblock title %}|Yourwebsite</title>
+        <title>{% block title %}{{setting.site_title}}{% endblock title %}</title>
         <meta
             name="description"
-            content="{% block meta_description %}Yourwebsite |topic of site{% endblock %}"
+            content="{% block meta_description %}{{setting.site_description}}{% endblock %}"
         />
         <link rel="stylesheet" href="{% static 'css/output.css' %}" />
         {% block extra_head %} {% endblock %}
