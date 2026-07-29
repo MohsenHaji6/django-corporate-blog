@@ -3,12 +3,31 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from treebeard.forms import MoveNodeForm
 
-from .models import Article, Comment
+from .models import Article, Category, Comment
 from .widgets import ArticleEditorWidget, SummaryEditorWidget
 
 
-class CategoryAdminForm(MoveNodeForm):
+class CategoryAdminForm(MoveNodeForm, forms.ModelForm):
     MAX_DEPTH = 3
+
+    class Meta:
+        model = Category
+        fields = "__all__"
+        widgets = {
+            "description": ArticleEditorWidget(),
+            "meta_description": forms.Textarea(
+                attrs={
+                    "rows": 3,
+                    "cols": 80,
+                }
+            ),
+            "meta_title": forms.Textarea(
+                attrs={
+                    "rows": 1,
+                    "cols": 80,
+                }
+            ),
+        }
 
     def clean(self):
         cleaned_data = super().clean()

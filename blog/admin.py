@@ -1,4 +1,5 @@
 from django.contrib import admin, messages
+from django.db.models import Count, Q
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from treebeard.admin import TreeAdmin
@@ -10,7 +11,7 @@ from .models import Article, Category, Comment, Tag
 
 @admin.register(Category)
 class CategoryAdmin(TreeAdmin):
-    list_display = ["name", "slug", "cover_image"]
+    list_display = ["name", "slug", "article_count", "cover_image"]
     list_display_links = ["slug"]
     search_fields = ["name"]
     prepopulated_fields = {
@@ -20,12 +21,78 @@ class CategoryAdmin(TreeAdmin):
     }
     form = CategoryAdminForm
     exclude = ["path", "depth", "numchild"]
+    readonly_fields = ["thumbnail"]
+    fieldsets = (
+        (
+            "Category",
+            {
+                "fields": (
+                    "name",
+                    "slug",
+                )
+            },
+        ),
+        (
+            "Position",
+            {
+                "fields": (
+                    "treebeard_position",
+                    "treebeard_ref_node",
+                ),
+            },
+        ),
+        (
+            "Content",
+            {"fields": ("description",)},
+        ),
+        (
+            "Media",
+            {
+                "fields": (
+                    "image",
+                    "thumbnail",
+                )
+            },
+        ),
+        (
+            "SEO",
+            {
+                "classes": ("collapse",),
+                "fields": (
+                    "meta_title",
+                    "meta_description",
+                ),
+            },
+        ),
+    )
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.annotate(
+            article_count=Count(
+                "articles", filter=Q(articles__status=Article.Status.PUBLISHED)
+            )
+        )
+
+    @admin.display(description="#Published Articles", ordering="article_count")
+    def article_count(self, obj):
+        return obj.article_count
 
     @admin.display(description="Image")
     def cover_image(self, obj):
         if obj.image:
             return mark_safe(
                 f'<img src="{obj.image.url}" style="max-width:70px; max-height:70px">'
+            )
+        return "-"
+
+    @admin.display(description="Thumbnail")
+    def thumbnail(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" width="200px" style="object-fit:cover;'
+                'border-radius:6px;" />',
+                obj.image.url,
             )
         return "-"
 
