@@ -1,11 +1,12 @@
 from django.contrib import admin, messages
 from django.db.models import Count, Q
+from django.http import HttpRequest
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from treebeard.admin import TreeAdmin
 
 from .admin_filters import CategoryDropdownFilter
-from .forms import ArticleAdminForm, CategoryAdminForm
+from .forms import ArticleAdminForm, CategoryAdminForm, TagAdminForm
 from .models import Article, Category, Comment, Tag
 
 
@@ -260,13 +261,31 @@ class ArticleAdmin(admin.ModelAdmin):
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ["name", "slug", "description"]
+    list_display = ["name", "slug", "article_count", "description"]
     search_fields = ["name"]
+    list_per_page = 20
     prepopulated_fields = {
         "slug": [
             "name",
         ]
     }
+    form = TagAdminForm
+
+    def get_queryset(self, request: HttpRequest):
+
+        return (
+            super()
+            .get_queryset(request)
+            .annotate(
+                article_count=Count(
+                    "articles", filter=Q(articles__status=Article.Status.PUBLISHED)
+                )
+            )
+        )
+
+    @admin.display(description="#Published Article", ordering="article_count")
+    def article_count(self, obj):
+        return obj.article_count
 
 
 @admin.register(Comment)
