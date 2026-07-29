@@ -4,14 +4,13 @@ from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from blog.forms import CommentForm
-from core.services import (
+from .forms import CommentForm
+from .models import Article, Category, Comment, Tag
+from .services import (
     build_article_breadcrumb,
     build_category_breadcrumb,
     build_category_tree,
 )
-
-from .models import Article, Category, Comment, Tag
 
 
 def blog_list_view(request):

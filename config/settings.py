@@ -150,8 +150,8 @@ TINYMCE_DEFAULT_CONFIG = {
     "statusbar": True,
     "branding": False,
     "promotion": False,
-    "directionality": "rtl",
-    "language": "fa",
+    "directionality": "ltr",
+    "language": "en",
     "resize": True,
 }
 

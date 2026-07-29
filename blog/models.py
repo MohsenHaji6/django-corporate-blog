@@ -96,7 +96,7 @@ class Article(models.Model):
         related_name="articles",
     )
     categories = models.ManyToManyField(Category, verbose_name=_("Categories"), blank=True)
-    
+
     tags = models.ManyToManyField(
         Tag, verbose_name=_("Tags"), blank=True, related_name="articles"
     )
@@ -105,7 +105,7 @@ class Article(models.Model):
         verbose_name = _("Article")
         verbose_name_plural = _("Articles")
 
-        ordering = ["-updated_at"]
+        ordering = ["-published_at"]
 
     def __str__(self):
         return self.title

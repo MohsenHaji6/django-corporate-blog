@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from treebeard.forms import MoveNodeForm
 
 from .models import Article, Comment
-from .widgets import ArticleEditorWidget
+from .widgets import ArticleEditorWidget, SummaryEditorWidget
 
 
 class CategoryAdminForm(MoveNodeForm):
@@ -37,7 +37,21 @@ class ArticleAdminForm(forms.ModelForm):
 
         widgets = {
             "content": ArticleEditorWidget(),
+            "summary": SummaryEditorWidget(),
+            "meta_description": forms.Textarea(
+                attrs={
+                    "rows": 3,
+                    "cols": 80,
+                }
+            ),
+            "meta_title": forms.Textarea(
+                attrs={
+                    "rows": 1,
+                    "cols": 80,
+                }
+            ),
         }
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
