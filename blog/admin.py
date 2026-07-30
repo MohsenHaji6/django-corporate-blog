@@ -2,7 +2,6 @@ from django.contrib import admin, messages
 from django.db.models import Count, Q
 from django.http import HttpRequest
 from django.utils.html import format_html
-from django.utils.safestring import mark_safe
 from treebeard.admin import TreeAdmin
 
 from .admin_filters import CategoryDropdownFilter
@@ -82,8 +81,8 @@ class CategoryAdmin(TreeAdmin):
     @admin.display(description="Image")
     def cover_image(self, obj):
         if obj.image:
-            return mark_safe(
-                f'<img src="{obj.image.url}" style="max-width:70px; max-height:70px">'
+            return format_html(
+                '<img src="{}" style="max-width:70px; max-height:70px">', obj.image.url
             )
         return "-"
 
