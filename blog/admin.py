@@ -6,7 +6,7 @@ from django.utils.safestring import mark_safe
 from treebeard.admin import TreeAdmin
 
 from .admin_filters import CategoryDropdownFilter
-from .forms import ArticleAdminForm, CategoryAdminForm, TagAdminForm
+from .forms import ArticleAdminForm, CategoryAdminForm, CommentAdminForm, TagAdminForm
 from .models import Article, Category, Comment, Tag
 
 
@@ -217,7 +217,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
     @admin.action(description="Publish selected Articles")
     def publish_selected(self, request, queryset):
-        update_count = queryset.update(status="PU")
+        update_count = queryset.update(status=Article.Status.PUBLISHED)
         self.message_user(
             request,
             f"{update_count} of articles published.",
@@ -226,7 +226,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
     @admin.action(description="Unpublish selected Articles")
     def unpublish_selected(self, request, queryset):
-        update_count = queryset.update(status="AR")
+        update_count = queryset.update(status=Article.Status.ARCHIVED)
         self.message_user(
             request,
             f"{update_count} of articles unpublished.",
@@ -290,4 +290,62 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ["name", "body", "status"]
+    form = CommentAdminForm
+    list_display = [
+        "name",
+        "email",
+        "article",
+        "status",
+        "created_at",
+    ]
+
+    search_fields = (
+        "name",
+        "article__title",
+        "email",
+        "body",
+    )
+    list_filter = (
+        "status",
+        "created_at",
+    )
+    list_editable = ("status",)
+    list_per_page = 20
+    date_hierarchy = "created_at"
+    readonly_fields = ("created_at",)
+    autocomplete_fields = ("article",)
+
+    fieldsets = (
+        ("Comment", {"fields": ("article", "status")}),
+        ("User", {"fields": ("name", "email")}),
+        ("Message", {"fields": ("body",)}),
+        ("Metadata", {"fields": ("created_at",)}),
+    )
+
+    actions = ("approve_selected", "pending_selected", "spam_selected")
+
+    @admin.display(description="Approve selected comments")
+    def approve_selected(self, request, queryset):
+        approve_count = queryset.update(status=Comment.Status.APPROVED)
+
+        self.message_user(request, f"{approve_count} comments Approved.", messages.SUCCESS)
+
+    @admin.display(description="Mark selected as Pending")
+    def pending_selected(self, request, queryset):
+        pending_count = queryset.update(status=Comment.Status.PENDING)
+
+        self.message_user(
+            request,
+            f"{pending_count} selected comments marked as Pending!",
+            messages.WARNING,
+        )
+
+    @admin.display(description="Mark selected as Spam")
+    def spam_selected(self, request, queryset):
+        spam_count = queryset.update(status=Comment.Status.SPAM)
+
+        self.message_user(
+            request,
+            f"{spam_count} selected comments marked as Spam!",
+            messages.ERROR,
+        )

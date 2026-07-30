@@ -139,3 +139,9 @@ class Comment(models.Model):
         _("Status"), max_length=2, choices=Status, default=Status.PENDING
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("Comment")
+        verbose_name_plural = _("Comments")
+
+        ordering = ["-created_at"]

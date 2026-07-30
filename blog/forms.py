@@ -93,6 +93,21 @@ class ArticleAdminForm(forms.ModelForm):
         }
 
 
+class CommentAdminForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = "__all__"
+
+        widgets = {
+            "body": forms.Textarea(
+                attrs={
+                    "rows": 5,
+                    "cols": 50,
+                }
+            ),
+        }
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
