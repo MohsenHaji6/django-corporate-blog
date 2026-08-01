@@ -15,3 +15,7 @@ class ContactMessage(models.Model):
     sms_sent = models.BooleanField(_("SMS Sent"), default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("Contact Message")
+        verbose_name_plural = _("Contact Messages")
