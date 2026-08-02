@@ -10,6 +10,7 @@ from .services import (
     build_article_breadcrumb,
     build_category_breadcrumb,
     build_category_tree,
+    register_article_view,
 )
 
 
@@ -133,8 +134,11 @@ def blog_detail_view(request, slug):
         ),
         slug=slug,
     )
+
     pagination = Paginator(article.comments.all(), 10)  # type: ignore
     page_comments = pagination.get_page(request.GET.get("page"))
+
+    register_article_view(request, article)
 
     if request.method == "POST":
         form = CommentForm(request.POST)
