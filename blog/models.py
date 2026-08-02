@@ -145,3 +145,18 @@ class Comment(models.Model):
         verbose_name_plural = _("Comments")
 
         ordering = ["-created_at"]
+
+
+class ArticleView(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="views")
+
+    session_key = models.CharField(max_length=40)
+    viewed_date = models.DateField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["article", "session_key", "viewed_date"],
+                name="unique_article_daily_view",
+            )
+        ]
