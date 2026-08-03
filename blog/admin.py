@@ -119,6 +119,7 @@ class ArticleAdmin(admin.ModelAdmin):
         "author",
         "published_at",
         "updated_at",
+        "views_count",
     ]
     list_per_page = 15
     prepopulated_fields = {

@@ -8,8 +8,6 @@ from .widgets import ArticleEditorWidget, SummaryEditorWidget
 
 
 class CategoryAdminForm(MoveNodeForm, forms.ModelForm):
-    MAX_DEPTH = 3
-
     class Meta:
         model = Category
         fields = "__all__"
@@ -28,6 +26,8 @@ class CategoryAdminForm(MoveNodeForm, forms.ModelForm):
                 }
             ),
         }
+
+    MAX_DEPTH = 3
 
     def clean(self):
         cleaned_data = super().clean()
