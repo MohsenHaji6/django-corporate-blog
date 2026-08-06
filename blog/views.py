@@ -89,7 +89,6 @@ def blog_tag_list_view(request, slug):
     categories = Category.objects.filter(
         id__in=articles.values_list("category_main_id", flat=True).distinct()
     )
-
     paths = set()
     for category in categories:
         p = category.path
