@@ -56,5 +56,5 @@ def build_article_breadcrumb(article):
         breadcrumbs[-1]["url"] = reverse(
             "blog:category", kwargs={"slug": article.category_main.slug}
         )
-    breadcrumbs.append({"title": article.title})
+    breadcrumbs.append({"title": article.title.capitalize()})
     return breadcrumbs

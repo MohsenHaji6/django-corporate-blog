@@ -1,15 +1,11 @@
-from django.contrib.auth import get_user_model
-from django.test import TestCase
 from django.urls import reverse
 
-from blog.models import Article, Category, Comment, Tag
+from blog.models import Article, Comment
+
+from .base import BaseBlogTest
 
 
-class CategoryModelTest(TestCase):
-    @classmethod
-    def setUpTestData(cls) -> None:
-        cls.category = Category.objects.create(name="test category", depth=1)
-
+class CategoryModelTest(BaseBlogTest):
     def test_str(self):
         self.assertEqual(str(self.category), "test category")
 
@@ -23,11 +19,7 @@ class CategoryModelTest(TestCase):
         )
 
 
-class TagModelTest(TestCase):
-    @classmethod
-    def setUpTestData(cls) -> None:
-        cls.tag = Tag.objects.create(name="test tag")
-
+class TagModelTest(BaseBlogTest):
     def test_str(self):
         self.assertEqual(str(self.tag), "test tag")
 
@@ -41,50 +33,30 @@ class TagModelTest(TestCase):
         )
 
 
-class ArticleModelTest(TestCase):
-    @classmethod
-    def setUpTestData(cls) -> None:
-        cls.article = Article.objects.create(
-            title="test title article",
-            author=get_user_model().objects.create_user(phone_number="09123456789"),  # type: ignore
-            content="test content article",
-            image="test.jpg",
-            image_alt_text="test",
-            category_main=Category.objects.create(name="test category", depth=1),
-        )
-
+class ArticleModelTest(BaseBlogTest):
     def test_str(self):
-        self.assertEqual(str(self.article), "test title article")
+        self.assertEqual(str(self.create_article()), "test article")
 
     def test_slug_is_generated_on_save(self):
-        self.assertEqual(self.article.slug, "test-title-article")
+        self.assertEqual(self.create_article().slug, "test-article")
 
     def test_get_absolute_url(self):
+        article = self.create_article()
         self.assertEqual(
-            self.article.get_absolute_url(),
-            reverse("blog:detail", kwargs={"slug": self.article.slug}),
+            article.get_absolute_url(),
+            reverse("blog:detail", kwargs={"slug": article.slug}),
         )
 
     def test_status_default(self):
-        self.assertEqual(self.article.status, Article.Status.DRAFT)
+        self.assertEqual(self.create_article().status, Article.Status.DRAFT)
 
 
-class CommentModelTest(TestCase):
-    @classmethod
-    def setUpTestData(cls) -> None:
-        cls.comment = Comment.objects.create(
-            article=Article.objects.create(
-                title="test title article",
-                author=get_user_model().objects.create_user(phone_number="09123456789"),  # type: ignore
-                content="test content article",
-                image="test.jpg",
-                image_alt_text="test",
-                category_main=Category.objects.create(name="test category", depth=1),
-            ),
+class CommentModelTest(BaseBlogTest):
+    def test_status_default(self):
+        comment = Comment.objects.create(
+            article=self.create_article(),
             name="test name",
             email="test@mail.com",
             body="test body",
         )
-
-    def test_status_default(self):
-        self.assertEqual(self.comment.status, Comment.Status.PENDING)
+        self.assertEqual(comment.status, Comment.Status.PENDING)

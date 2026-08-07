@@ -30,7 +30,7 @@ class BlogListViewTest(BaseBlogTest):
     def test_paginates_articles_by_15(self):
 
         for i in range(16):
-            self.create_article(title=f"test article {i}")
+            self.create_article(title=f"test article {i}", status=Article.Status.PUBLISHED)
 
         response = self.client.get(reverse("blog:list"))
         self.assertEqual(len(response.context["articles"]), 15)
@@ -54,10 +54,14 @@ class BlogCategoryListViewTest(BaseBlogTest):
 
     def test_shows_just_articles_of_category_a_not_category_b(self):
         category_a = Category.add_root(name="category a")
-        article_1 = self.create_article(title="test 1", category_main=category_a)
+        article_1 = self.create_article(
+            title="test 1", category_main=category_a, status=Article.Status.PUBLISHED
+        )
 
         category_b = Category.add_root(name="category b")
-        article_2 = self.create_article(title="test 2", category_main=category_b)
+        article_2 = self.create_article(
+            title="test 2", category_main=category_b, status=Article.Status.PUBLISHED
+        )
 
         response = self.client.get(self.get_category_url(slug=category_a.slug))
         articles = response.context["articles"]
@@ -88,7 +92,7 @@ class BlogCategoryListViewTest(BaseBlogTest):
 
     def test_paginates_articles_by_15(self):
         for i in range(16):
-            self.create_article(title=f"test article {i}")
+            self.create_article(title=f"test article {i}", status=Article.Status.PUBLISHED)
 
         response = self.client.get(self.get_category_url())
         self.assertEqual(len(response.context["articles"]), 15)
@@ -122,10 +126,14 @@ class BlogTagListViewTest(BaseBlogTest):
 
     def test_shows_just_articles_of_tag_a_not_tag_b(self):
         tag_a = Tag.objects.create(name="tag a")
-        article_1 = self.create_article(title="test 1", tags=tag_a)
+        article_1 = self.create_article(
+            title="test 1", tags=tag_a, status=Article.Status.PUBLISHED
+        )
 
         tag_b = Tag.objects.create(name="tag b")
-        article_2 = self.create_article(title="test 2", tags=tag_b)
+        article_2 = self.create_article(
+            title="test 2", tags=tag_b, status=Article.Status.PUBLISHED
+        )
 
         response = self.client.get(self.get_tag_url(slug=tag_a.slug))
         articles = response.context["articles"]
@@ -156,7 +164,7 @@ class BlogTagListViewTest(BaseBlogTest):
 
     def test_paginates_articles_by_15(self):
         for i in range(16):
-            self.create_article(title=f"test article {i}")
+            self.create_article(title=f"test article {i}", status=Article.Status.PUBLISHED)
 
         response = self.client.get(self.get_tag_url())
         self.assertEqual(len(response.context["articles"]), 15)
@@ -179,7 +187,7 @@ class BlogDetailViewTest(BaseBlogTest):
         self.assertTemplateUsed(response, "blog/blog_detail.html")
 
     def test_shows_only_approved_comments(self):
-        article = self.create_article()
+        article = self.create_article(status=Article.Status.PUBLISHED)
         for i, status in enumerate(
             [Comment.Status.APPROVED, Comment.Status.PENDING, Comment.Status.SPAM]
         ):
@@ -198,7 +206,7 @@ class BlogDetailViewTest(BaseBlogTest):
             self.assertEqual(comment.status, Comment.Status.APPROVED)
 
     def test_pagination_comments_by_10(self):
-        article = self.create_article()
+        article = self.create_article(status=Article.Status.PUBLISHED)
         for i in range(11):
             Comment.objects.create(
                 article=article,

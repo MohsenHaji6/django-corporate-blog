@@ -1,6 +1,5 @@
-from datetime import date
-
 from django.db.models import F
+from django.utils import timezone
 
 from blog.models import Article, ArticleView
 
@@ -13,7 +12,7 @@ def register_article_view(request, article):
     session_key = request.session.session_key
 
     _, created = ArticleView.objects.get_or_create(
-        article=article, session_key=session_key, viewed_date=date.today()
+        article=article, session_key=session_key, viewed_date=timezone.localdate()
     )
 
     if created:
