@@ -72,7 +72,7 @@ class ArticleViewsTest(BaseBlogTest):
 
 class BuildBreadcrumbTest(BaseBlogTest):
     def test_build_category_breadcrumb(self):
-        child3 = self.create_nested_category()["child3"]
+        child3 = self.create_category_depth_3()["child3"]
         categories = child3.get_ancestors()
         breadcrumbs = build_category_breadcrumb(child3, categories)
 
@@ -87,7 +87,7 @@ class BuildBreadcrumbTest(BaseBlogTest):
         self.assertListEqual(breadcrumbs, instance_breadcrumbs)
 
     def test_build_article_breadcrumb(self):
-        child3 = self.create_nested_category()["child3"]
+        child3 = self.create_category_depth_3()["child3"]
         article = self.create_article(category_main=child3)
         breadcrumbs = build_article_breadcrumb(article)
 
@@ -103,7 +103,7 @@ class BuildBreadcrumbTest(BaseBlogTest):
 
 class CategoryTreeTest(BaseBlogTest):
     def test_build_category_tree(self):
-        self.create_nested_category()
+        self.create_category_depth_3()
         instance_category_tree = [
             {
                 "pk": 1,
@@ -145,7 +145,7 @@ class CategoryTreeTest(BaseBlogTest):
 
     def test_build_category_tree_by_paths(self):
         for i in range(2):
-            self.create_nested_category(
+            self.create_category_depth_3(
                 root_name=f"root {i}",
                 child_name=f"child {i}",
                 sub_child_name=f"sub child {i}",

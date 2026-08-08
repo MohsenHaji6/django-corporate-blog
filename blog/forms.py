@@ -10,7 +10,7 @@ from .widgets import ArticleEditorWidget, SummaryEditorWidget
 class CategoryAdminForm(MoveNodeForm, forms.ModelForm):
     class Meta:
         model = Category
-        fields = "__all__"
+        fields = ["name", "slug", "description", "image", "meta_title", "meta_description"]
         widgets = {
             "description": ArticleEditorWidget(),
             "meta_description": forms.Textarea(

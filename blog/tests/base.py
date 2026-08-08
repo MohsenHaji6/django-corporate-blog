@@ -45,7 +45,12 @@ class BaseBlogTest(TestCase):
 
         return article
 
-    def create_nested_category(self, root_name=None, child_name=None, sub_child_name=None):
+    def create_category_depth_3(
+        self, 
+        root_name=None, 
+        child_name=None, 
+        sub_child_name=None
+    ):
         root = Category.add_root(name=root_name if root_name else "test root 1")
         child2 = root.add_child(name=child_name if child_name else "test child 2")
         child3 = child2.add_child(
