@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.contrib.messages.storage.fallback import FallbackStorage
+from django.test import RequestFactory, TestCase
 from django.urls import reverse
 
 from blog.models import Article, Category, Tag
@@ -11,7 +12,7 @@ class BaseBlogTest(TestCase):
     def setUpTestData(cls):
         cls.category = Category.add_root(name="test category")
         cls.tag = Tag.objects.create(name="test tag")
-        cls.user = get_user_model().objects.create_user(phone_number="09123456789")  # type: ignore
+        cls.user = get_user_model().objects.create_user(phone_number="09111111111")  # type: ignore
         SiteSetting.objects.create(
             site_title="test site title",
             site_description="test site description",
@@ -46,10 +47,7 @@ class BaseBlogTest(TestCase):
         return article
 
     def create_category_depth_3(
-        self, 
-        root_name=None, 
-        child_name=None, 
-        sub_child_name=None
+        self, root_name=None, child_name=None, sub_child_name=None
     ):
         root = Category.add_root(name=root_name if root_name else "test root 1")
         child2 = root.add_child(name=child_name if child_name else "test child 2")
@@ -76,3 +74,11 @@ class BaseBlogTest(TestCase):
 
     def get_tag_url(self, slug=None):
         return reverse("blog:tag", kwargs={"slug": slug if slug else self.tag.slug})
+
+    def get_admin_request(self):
+        request = RequestFactory().get("/admin/")
+        request.user = get_user_model().objects.create_user(phone_number="09122222222")  # type: ignore
+        request.session = self.client.session
+        setattr(request, "_messages", FallbackStorage(request))
+        return request
+    

@@ -20,7 +20,6 @@ class CategoryAdmin(TreeAdmin):
         ]
     }
     form = CategoryAdminForm
-    exclude = ["path", "depth", "numchild"]
     readonly_fields = ["thumbnail"]
     fieldsets = (
         (
@@ -324,13 +323,13 @@ class CommentAdmin(admin.ModelAdmin):
 
     actions = ("approve_selected", "pending_selected", "spam_selected")
 
-    @admin.display(description="Approve selected comments")
+    @admin.action(description="Approve selected comments")
     def approve_selected(self, request, queryset):
         approve_count = queryset.update(status=Comment.Status.APPROVED)
 
         self.message_user(request, f"{approve_count} comments Approved.", messages.SUCCESS)
 
-    @admin.display(description="Mark selected as Pending")
+    @admin.action(description="Mark selected as Pending")
     def pending_selected(self, request, queryset):
         pending_count = queryset.update(status=Comment.Status.PENDING)
 
@@ -340,7 +339,7 @@ class CommentAdmin(admin.ModelAdmin):
             messages.WARNING,
         )
 
-    @admin.display(description="Mark selected as Spam")
+    @admin.action(description="Mark selected as Spam")
     def spam_selected(self, request, queryset):
         spam_count = queryset.update(status=Comment.Status.SPAM)
 
