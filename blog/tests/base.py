@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from blog.models import Article, Category, Tag
 from core.models.site_setting import SiteSetting
@@ -32,6 +33,7 @@ class BaseBlogTest(TestCase):
         status=None,
         category_main=None,
         tags=None,
+        published_at = None,
     ):
         article = Article.objects.create(
             title=title if title else "test article",
@@ -41,6 +43,7 @@ class BaseBlogTest(TestCase):
             image_alt_text="test",
             category_main=category_main if category_main else self.category,
             status=status if status else Article.Status.DRAFT,
+            published_at = published_at if published_at else timezone.now()
         )
         article.tags.set([tags if tags else self.tag])
 
