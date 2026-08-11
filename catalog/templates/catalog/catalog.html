@@ -1,12 +1,11 @@
 {% extends '_base.html' %}
 
 <!-- prettier-ignore -->
-{% block title %}{{page.meta_title|default:setting.site_title}}{% endblock title %}
+{% block title %}{% if page.meta_title %}{{page.meta_title}}{%elif setting.site_title%}{{setting.site_title}}{% else %}{% endif %}{% endblock title %}
 
 
-{% block meta_description %}{{page.meta_description|default:setting.site_description}}{% endblock meta_description %}
+{%block meta_description%}{%if page.meta_description%}{{page.meta_description}}{% elif setting.site_description%}{{setting.site_description}}{% else %}{% endif %}{% endblock meta_description %}
     
-
 {% block content %}
 {% include 'includes/breadcrumb.html' %}
 <div class="flex flex-col bg-white shadow shadow-slate-300 rounded-2xl p-5 gap-5">

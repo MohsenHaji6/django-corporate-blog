@@ -13,11 +13,11 @@ def catalog_view(request):
         {"title": _("Home"), "url": "core:home"},
         {"title": _("Catalog")},
     ]
-    products = Product.objects.prefetch_related("variants").all()
+    products = Product.objects.filter(is_active=True).prefetch_related("variants").all()
     product_data = []
 
     for product in products:
-        variants = product.variants.all()  # type: ignore
+        variants = product.variants.filter(is_active=True).all()  # type: ignore
         variant_data = [
             {
                 "title": variant.title,
