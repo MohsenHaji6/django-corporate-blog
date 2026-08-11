@@ -124,7 +124,9 @@ def blog_tag_list_view(request, slug):
 def blog_detail_view(request, slug):
 
     article = get_object_or_404(
-        Article.objects.select_related("category_main").prefetch_related(
+        Article.objects.filter(status=Article.Status.PUBLISHED)
+        .select_related("category_main")
+        .prefetch_related(
             Prefetch(
                 "comments",
                 queryset=Comment.objects.filter(status=Comment.Status.APPROVED),

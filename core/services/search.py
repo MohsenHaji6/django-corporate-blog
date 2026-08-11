@@ -22,7 +22,8 @@ def search(query, request):
     tags_exists = Tag.objects.filter(articles=OuterRef("pk")).filter(tag)
 
     articles = (
-        Article.objects.annotate(has_tag=Exists(tags_exists))
+        Article.objects.filter(status=Article.Status.PUBLISHED)
+        .annotate(has_tag=Exists(tags_exists))
         .annotate(
             search_score=(
                 Case(
