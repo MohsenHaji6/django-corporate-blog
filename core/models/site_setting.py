@@ -73,7 +73,7 @@ class SocialLink(models.Model):
 
 
 class Address(models.Model):
-    name = models.CharField(_("Name"), max_length=100)
+    name = models.CharField(_("Name"), max_length=100, unique=True)
     province = models.CharField(_("Province"), max_length=50)
     city = models.CharField(_("City"), max_length=50)
     address = models.CharField(_("Address"), max_length=255)
