@@ -46,7 +46,11 @@ class PhoneNumber(models.Model):
                 fields=["is_primary"],
                 condition=models.Q(is_primary=True),
                 name="only_one_primary_phone",
-            )
+            ),
+            UniqueConstraint(
+                fields=["use_for", "phone_number"],
+                name="unique_use_for_phone_number",
+            ),
         ]
 
     def __str__(self) -> str:
