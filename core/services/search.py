@@ -11,6 +11,9 @@ def search(query, request):
     query = query.split()
     query = set([word for word in query if len(word) >= 3])
 
+    if query == set():
+        return []
+
     title = content = tag = category = Q()
 
     for word in query:
