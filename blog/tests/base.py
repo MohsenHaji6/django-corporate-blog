@@ -30,20 +30,21 @@ class BaseBlogTest(TestCase):
     def create_article(
         self,
         title=None,
-        status=None,
+        content=None,
         category_main=None,
         tags=None,
-        published_at = None,
+        status=None,
+        published_at=None,
     ):
         article = Article.objects.create(
             title=title if title else "test article",
-            content="test content article",
+            content=content if content else "test content article",
             author=self.user,
             image="test.jpg",
             image_alt_text="test",
             category_main=category_main if category_main else self.category,
             status=status if status else Article.Status.DRAFT,
-            published_at = published_at if published_at else timezone.now()
+            published_at=published_at if published_at else timezone.now(),
         )
         article.tags.set([tags if tags else self.tag])
 
@@ -84,4 +85,3 @@ class BaseBlogTest(TestCase):
         request.session = self.client.session
         setattr(request, "_messages", FallbackStorage(request))
         return request
-    

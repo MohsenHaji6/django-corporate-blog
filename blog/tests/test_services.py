@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from django.test import Client
 
-from blog.models import ArticleView, Category
+from blog.models import Article, ArticleView, Category
 from blog.services import (
     build_article_breadcrumb,
     build_category_breadcrumb,
@@ -15,7 +15,7 @@ from .base import BaseBlogTest
 
 class ArticleViewsTest(BaseBlogTest):
     def test_does_not_increment_view_count_on_page_refresh(self):
-        article = self.create_article()
+        article = self.create_article(status=Article.Status.PUBLISHED)
         client1 = self.client
         client1.get(self.get_article_url(slug=article.slug))
 
@@ -40,7 +40,7 @@ class ArticleViewsTest(BaseBlogTest):
 
     @patch("blog.services.article_views.timezone.localdate")
     def test_register_article_view_different_days(self, mock_localdate):
-        article = self.create_article()
+        article = self.create_article(status=Article.Status.PUBLISHED)
 
         mock_localdate.return_value = date(2026, 8, 6)
 
@@ -56,7 +56,7 @@ class ArticleViewsTest(BaseBlogTest):
         self.assertEqual(article.views_count, 2)
 
     def test_increment_view_count_with_different_sessions(self):
-        article = self.create_article()
+        article = self.create_article(status=Article.Status.PUBLISHED)
         client1 = Client()
         client2 = Client()
 
