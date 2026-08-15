@@ -29,8 +29,6 @@ def home_view(request):
             form.save()
             messages.success(request, """Your message has been sent successfully!""")
             return redirect("core:home")
-        else:
-            pass
     else:
         form = ContactMessageForm()
 
@@ -73,8 +71,6 @@ def contact_view(request):
             form.save()
             messages.success(request, """Your message has been sent successfully!""")
             return redirect("core:contact")
-        else:
-            pass
     else:
         form = ContactMessageForm()
 
@@ -102,9 +98,7 @@ def contact_view(request):
 
 
 def search_view(request):
-    # Perform search logic here
     query = request.GET.get("q", "")
-    # ... (search logic)
     articles = search(query, request)
 
     return render(request, "core/search.html", {"articles": articles, "query": query})
