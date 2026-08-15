@@ -81,7 +81,9 @@ class BaseBlogTest(TestCase):
 
     def get_admin_request(self):
         request = RequestFactory().get("/admin/")
-        request.user = get_user_model().objects.create_user(phone_number="09122222222")  # type: ignore
+        request.user = get_user_model().objects.create_superuser(
+            phone_number="09122222222", password="TEst@6666"
+        )  # type: ignore
         request.session = self.client.session
         setattr(request, "_messages", FallbackStorage(request))
         return request

@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from core.models import Page, PhoneNumber, SiteSetting
-from core.models.site_setting import Address
+from core.models.site_setting import Address, SocialLink
 
 
 class BaseCoreTest(TestCase):
@@ -24,7 +24,7 @@ class BaseCoreTest(TestCase):
         Page.objects.create(page_type=page_type, title="test page")
 
     def create_phone_number(self, use_for="for test", is_primary=False, is_active=True):
-        PhoneNumber.objects.create(
+        return PhoneNumber.objects.create(
             use_for=use_for,
             phone_number="+989121111111",
             is_primary=is_primary,
@@ -40,3 +40,9 @@ class BaseCoreTest(TestCase):
             is_primary=is_primary,
             is_active=is_active,
         )
+
+    def create_social_link(self):
+        return SocialLink.objects.create(
+            name="Social Test", url="https://test.me/test_social"
+        )
+
