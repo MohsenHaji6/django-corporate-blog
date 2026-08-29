@@ -1,6 +1,12 @@
 from django.urls import path
 
-from .views import about_view, contact_view, home_view, privacy_view, search_view
+from .views import (
+    about_view,
+    contact_view,
+    home_view,
+    privacy_view,
+    search_view,
+)
 
 app_name = "core"
 

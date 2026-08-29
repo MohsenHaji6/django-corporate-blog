@@ -1,3 +1,17 @@
+FROM node:22 AS frontend
+
+WORKDIR /app
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm ci
+
+COPY . .
+
+RUN npm run build
+
+
 FROM python:3.13
 
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -18,4 +32,10 @@ EXPOSE 8000
 
 COPY . .
 
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+RUN rm /code/static/src/input.css
+
+COPY --from=frontend /app/static/css/output.css /code/static/css/output.css
+
+ENTRYPOINT [ "/code/entrypoint.sh" ]
+
+CMD [ "gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "1" ]

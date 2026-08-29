@@ -20,7 +20,6 @@ __pycache__/
 
 # Tailwind
 node_modules/
-
 staticfiles/
-
 media/
+static/css/output.css
