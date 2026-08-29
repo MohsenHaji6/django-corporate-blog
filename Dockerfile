@@ -28,8 +28,6 @@ COPY pyproject.toml .
 
 RUN uv sync
 
-EXPOSE 8000
-
 COPY . .
 
 RUN rm /code/static/src/input.css
@@ -38,4 +36,4 @@ COPY --from=frontend /app/static/css/output.css /code/static/css/output.css
 
 ENTRYPOINT [ "/code/entrypoint.sh" ]
 
-CMD [ "gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "1" ]
+CMD [ "gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:10000", "--workers", "1" ]
