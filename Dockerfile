@@ -34,6 +34,8 @@ RUN rm /code/static/src/input.css
 
 COPY --from=frontend /app/static/css/output.css /code/static/css/output.css
 
+RUN chmod +x /code/entrypoint.sh
+
 ENTRYPOINT [ "/code/entrypoint.sh" ]
 
-CMD [ "gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:10000", "--workers", "1" ]
+CMD ["sh", "-c", "gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 1"]
