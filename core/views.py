@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -117,3 +118,6 @@ def privacy_view(request):
         },
     ]
     return render(request, "core/privacy.html", {"breadcrumbs": breadcrumbs, "page": page})
+
+def health_checker_view(request):
+    return HttpResponse("OK")
