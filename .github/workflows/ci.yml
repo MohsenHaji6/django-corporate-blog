@@ -51,6 +51,9 @@ jobs:
                   POSTGRES_PORT: 5432
               run: uv run python manage.py migrate
 
+            - name: Remove Tailwind source
+              run: rm static/src/input.css
+
             - name: Collect static files
               env:
                   DJANGO_SECRET_KEY: ci-secret-key
