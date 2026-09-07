@@ -42,7 +42,8 @@ jobs:
             - name: Run migrations
               env:
                   DJANGO_SECRET_KEY: ci-secret-key
-                  DJANGO_ALLOWED_HOSTS: localhost
+                  DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+                  DJANGO_CSRF_TRUSTED_ORIGINS: https://localhost:8000,https://127.0.0.1:8000
                   POSTGRES_DB: ci_db
                   POSTGRES_USER: ci_user
                   POSTGRES_PASSWORD: ci_password
@@ -53,7 +54,8 @@ jobs:
             - name: Run tests
               env:
                   DJANGO_SECRET_KEY: ci-secret-key
-                  DJANGO_ALLOWED_HOSTS: localhost
+                  DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+                  DJANGO_CSRF_TRUSTED_ORIGINS: https://localhost:8000,https://127.0.0.1:8000
                   POSTGRES_DB: ci_db
                   POSTGRES_USER: ci_user
                   POSTGRES_PASSWORD: ci_password
