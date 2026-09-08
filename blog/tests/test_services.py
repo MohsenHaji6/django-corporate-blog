@@ -195,7 +195,7 @@ class CategoryTreeTest(BaseBlogTest):
         paths_1 = [Category.objects.get(name="root 0").path]
         instance_category_tree_1 = [
             {
-                "pk": categories[0]["root"].pk,
+                "pk": 1,
                 "name": "root 0",
                 "slug": "root-0",
                 "depth": 1,
@@ -206,4 +206,3 @@ class CategoryTreeTest(BaseBlogTest):
         self.assertListEqual(build_category_tree(paths_1), instance_category_tree_1)
 
         # Change for test CD
-        
