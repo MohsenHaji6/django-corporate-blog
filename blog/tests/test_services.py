@@ -103,10 +103,16 @@ class BuildBreadcrumbTest(BaseBlogTest):
 
 class CategoryTreeTest(BaseBlogTest):
     def test_build_category_tree(self):
-        self.create_category_depth_3()
+        categories = self.create_category_depth_3()
+
+        category = self.category
+        root = categories["root"]
+        child2 = categories["child2"]
+        child3 = categories["child3"]
+
         instance_category_tree = [
             {
-                "pk": 1,
+                "pk": category.pk,
                 "name": "test category",
                 "slug": "test-category",
                 "depth": 1,
@@ -114,21 +120,21 @@ class CategoryTreeTest(BaseBlogTest):
                 "children": [],
             },
             {
-                "pk": 2,
+                "pk": root.pk,
                 "name": "test root 1",
                 "slug": "test-root-1",
                 "depth": 1,
                 "url": "/blog/cat/test-root-1/",
                 "children": [
                     {
-                        "pk": 3,
+                        "pk": child2.pk,
                         "name": "test child 2",
                         "slug": "test-child-2",
                         "depth": 2,
                         "url": "/blog/cat/test-child-2/",
                         "children": [
                             {
-                                "pk": 4,
+                                "pk": child3.pk,
                                 "name": "test child 3",
                                 "slug": "test-child-3",
                                 "depth": 3,
