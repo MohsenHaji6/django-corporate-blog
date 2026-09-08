@@ -150,17 +150,23 @@ class CategoryTreeTest(BaseBlogTest):
         self.assertListEqual(build_category_tree(), instance_category_tree)
 
     def test_build_category_tree_by_paths(self):
+
+        categories = []
         for i in range(2):
-            self.create_category_depth_3(
-                root_name=f"root {i}",
-                child_name=f"child {i}",
-                sub_child_name=f"sub child {i}",
+            categories.append(
+                self.create_category_depth_3(
+                    root_name=f"root {i}",
+                    child_name=f"child {i}",
+                    sub_child_name=f"sub child {i}",
+                )
             )
 
         paths = [Category.objects.filter(depth=1).values_list("path", flat=True)]
+        category = self.category
+
         instance_category_tree = [
             {
-                "pk": 2,
+                "pk": categories[0]["root"].pk,
                 "name": "root 0",
                 "slug": "root-0",
                 "depth": 1,
@@ -168,7 +174,7 @@ class CategoryTreeTest(BaseBlogTest):
                 "children": [],
             },
             {
-                "pk": 5,
+                "pk": categories[1]["root"].pk,
                 "name": "root 1",
                 "slug": "root-1",
                 "depth": 1,
@@ -176,7 +182,7 @@ class CategoryTreeTest(BaseBlogTest):
                 "children": [],
             },
             {
-                "pk": 1,
+                "pk": category.pk,
                 "name": "test category",
                 "slug": "test-category",
                 "depth": 1,
@@ -189,7 +195,7 @@ class CategoryTreeTest(BaseBlogTest):
         paths_1 = [Category.objects.get(name="root 0").path]
         instance_category_tree_1 = [
             {
-                "pk": 2,
+                "pk": categories[0]["root"].pk,
                 "name": "root 0",
                 "slug": "root-0",
                 "depth": 1,
