@@ -195,7 +195,7 @@ class CategoryTreeTest(BaseBlogTest):
         paths_1 = [Category.objects.get(name="root 0").path]
         instance_category_tree_1 = [
             {
-                "pk": 2,
+                "pk": categories[0]["root"].pk,
                 "name": "root 0",
                 "slug": "root-0",
                 "depth": 1,
